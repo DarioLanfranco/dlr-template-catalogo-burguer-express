@@ -32,7 +32,7 @@ jobs:
       - run: npm run build
         env:
           NODE_ENV: production
-          BASE_URL: /dlr-template-catalogo-gym-express
+          BASE_URL: /dlr-template-catalogo-burguer-express
 
       - uses: actions/upload-pages-artifact@v3
         with:
