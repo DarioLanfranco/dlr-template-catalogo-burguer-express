@@ -1,3 +1,5 @@
+import type { UIConfig } from "./schema";
+
 const esToEnDays: Record<string, string> = {
   lunes: "Monday",
   martes: "Tuesday",
@@ -58,7 +60,7 @@ export function parseOpeningHours(businessHours: string): OpeningHoursSpecificat
 }
 
 export function buildSiteSchema(
-  siteConfig: { siteName: string; description: string; contact: { phone: string; email: string; address: string; businessHours: string }; social: { facebook?: string; instagram?: string; twitter?: string }; services: Array<{ title: string; description: string; image: string }> },
+  siteConfig: Pick<UIConfig, "siteName" | "description" | "contact" | "social" | "services">,
   siteUrl: URL,
   ogImageUrl: string,
 ) {
@@ -90,6 +92,8 @@ export function buildSiteSchema(
     ],
   };
 }
+
+export type SiteSchema = ReturnType<typeof buildSiteSchema>;
 
 export function parseAddress(raw: string, defaultLocality = "Ciudad Autónoma de Buenos Aires"): PostalAddress {
   const parts = raw.split(",").map((p) => p.trim());

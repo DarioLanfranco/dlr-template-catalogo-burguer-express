@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ironpulsegym.com/sitemap-index.xml
+Sitemap: https://dariolanfranco.github.io/dlr-template-catalogo-burguer-express/sitemap-index.xml

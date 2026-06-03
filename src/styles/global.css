@@ -4,7 +4,6 @@
  * ──────────────────────────────────────────────
  *  PEPÓN — Brutalismo Pop / Vibrant Foodie
  *  Tokens, utilidades e infraestructura visual.
- *  Migrado desde Iron Pulse Gym template.
  * ──────────────────────────────────────────────
  *
  * Convención de temas:
@@ -31,8 +30,6 @@
   --color-bg: #121212;
   --color-text-base: #FFFFFF;
   --color-card-base: #1A1A1A;
-  --color-surface: #1A1A1A;
-  --color-border: #2A2A2A;
 
   /* Marca */
   --color-primary: #E63946;
@@ -67,8 +64,6 @@
   --color-bg: #FDFBF7;
   --color-text-base: #121212;
   --color-card-base: #FFFFFF;
-  --color-surface: #F5F0EB;
-  --color-border: #E5E0DB;
 
   --color-primary: #E63946;
   --color-secondary: #FFC300;
@@ -200,7 +195,7 @@ body.nav-open {
 }
 
 /* ==============================================
- *  5. MEDIA CARD (legacy del template gym)
+ *  5. MEDIA CARD
  *  ============================================*/
 
 .media-card {

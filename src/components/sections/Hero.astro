@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import gymHero from "../../assets/images/gym1.webp";
-import gymHero2 from "../../assets/images/gym14.webp";
-import gymHero3 from "../../assets/images/gym15.webp";
+import headburguer from "../../assets/images/headburguer.webp";
+import burgerClasica from "../../assets/images/burguerclasica.webp";
+import burgerDoble from "../../assets/images/burguerdoble.webp";
 import CTAButton from "../common/CTAButton.astro";
 
 interface Props {
@@ -22,8 +22,8 @@ const { tagline, description } = Astro.props;
   <div class="hero-grid">
     <div class="hero-image hero-image-primary media-card">
       <Image
-        src={gymHero}
-        alt="Gym interior"
+        src={headburguer}
+        alt="Hamburguesa PEPÓN"
         width={800}
         height={600}
         widths={[400, 728, 800]}
@@ -35,8 +35,8 @@ const { tagline, description } = Astro.props;
     </div>
     <div class="hero-image hero-image-secondary media-card">
       <Image
-        src={gymHero2}
-        alt="Training equipment"
+        src={burgerClasica}
+        alt="Burger Clásica PEPÓN"
         width={400}
         height={300}
         widths={[400, 728, 800]}
@@ -48,8 +48,8 @@ const { tagline, description } = Astro.props;
     </div>
     <div class="hero-image hero-image-tertiary media-card">
       <Image
-        src={gymHero3}
-        alt="Gym atmosphere"
+        src={burgerDoble}
+        alt="Burger Doble PEPÓN"
         width={400}
         height={300}
         widths={[400, 728, 800]}

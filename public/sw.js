@@ -1,6 +1,6 @@
 importScripts("/precache-manifest.js");
 
-const CACHE_NAME = "ironpulse-cache-v1";
+const CACHE_NAME = "pepon-cache-v1";
 const PRECACHE_URLS = self.PRECACHE_ASSETS || [];
 
 self.addEventListener("install", (event) => {

@@ -12,7 +12,7 @@ import ScrollReveal from "../components/common/ScrollReveal.astro";
 interface Props { title: string; description?: string; }
 
 const { title, description = siteConfig.description } = Astro.props;
-const siteUrl = Astro.site ?? new URL("https://ironpulsegym.com");
+const siteUrl = Astro.site ?? new URL("https://dariolanfranco.github.io");
 const OG_URL = new URL("/og-image.png", siteUrl).href;
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 const schema = buildSiteSchema(siteConfig, siteUrl, OG_URL);
@@ -36,7 +36,7 @@ const schema = buildSiteSchema(siteConfig, siteUrl, OG_URL);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#FF9F1C" />
+    <meta name="theme-color" content="#E63946" />
     <meta name="robots" content="index, follow" />
     <ThemeScript />
     <PwaRegister />

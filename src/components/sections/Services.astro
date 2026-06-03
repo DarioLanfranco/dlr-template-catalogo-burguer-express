@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import coachs1 from "../../assets/images/coachs1.webp";
+import headburguer from "../../assets/images/headburguer.webp";
 import type { Service } from "../../config/schema";
 
 interface Props {
@@ -29,7 +29,7 @@ const serviceImages = Object.fromEntries(
       services.map((service) => (
         <article class="service-card reveal-on-scroll media-card" id={service.id}>
           <Image
-            src={serviceImages[service.image] ?? coachs1}
+            src={serviceImages[service.image] ?? headburguer}
             alt={service.title}
             width={600}
             height={450}

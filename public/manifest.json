@@ -1,11 +1,11 @@
 {
-  "name": "Iron Pulse Gym",
-  "short_name": "Iron Pulse",
-  "description": "Un gimnasio boutique dedicado al entrenamiento personalizado de alta calidad. Equipamiento de última generación y entrenadores certificados para ayudarte a alcanzar tus metas fitness.",
+  "name": "PEPÓN — Catálogo Express",
+  "short_name": "PEPÓN",
+  "description": "Catálogo express de comidas. Hamburguesas, pizzas, empanadas, papas y más. Sabor que pega fuerte.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#121212",
-  "theme_color": "#FF9F1C",
+  "theme_color": "#E63946",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
