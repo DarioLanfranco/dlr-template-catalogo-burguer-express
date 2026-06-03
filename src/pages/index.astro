@@ -8,12 +8,12 @@ import Services from "../components/sections/Services.astro";
 import Sucursal from "../components/sections/Sucursal.astro";
 import Footer from "../components/sections/Footer.astro";
 
-const { tagline, description, about, contact, services, siteName, social } = siteConfig;
+const { about, contact, services, siteName, social } = siteConfig;
 ---
 
 <Layout title={siteName}>
   <main>
-    <Hero tagline={tagline} description={description} />
+    <Hero />
     <About
       subtitle={about.history.subtitle}
       title={about.history.title}

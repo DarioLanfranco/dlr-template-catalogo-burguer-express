@@ -1,150 +1,372 @@
 ---
 import { Image } from "astro:assets";
-import headburguer from "../../assets/images/headburguer.webp";
-import burgerClasica from "../../assets/images/burguerclasica.webp";
-import burgerDoble from "../../assets/images/burguerdoble.webp";
-import CTAButton from "../common/CTAButton.astro";
-
-interface Props {
-  tagline: string;
-  description: string;
-}
-
-const { tagline, description } = Astro.props;
+import headBurgerImg from "../../assets/images/headburguer.webp";
+import deliveryIcon from "../../assets/brand/icons/delivery.svg";
 ---
 
 <section id="inicio" class="hero">
-  <div class="hero-content">
-    <h2>{tagline}</h2>
-    <p>{description}</p>
-    <CTAButton href="#servicios">Ver Servicios</CTAButton>
+  <div class="hero-text">
+    <span class="hero-sticker">RÁPIDO, CALIENTE Y BRUTAL</span>
+
+    <h1 class="hero-title">
+      LA MEJOR<br />
+      <span class="hero-highlight">COMIDA</span><br />
+      DE LA CIUDAD
+    </h1>
+
+    <p class="hero-desc">
+      Hamburguesas, pizzas, empanadas y mucho más. Pedí fácil, rápido y disfrutá
+      donde estés.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#menu" class="btn-order">
+        <img src={deliveryIcon.src} alt="" width="24" height="24" class="btn-delivery-icon" />
+        PEDÍ AHORA
+      </a>
+      <a href="#menu" class="btn-outline">VER MENÚ</a>
+    </div>
   </div>
-  <div class="hero-grid">
-    <div class="hero-image hero-image-primary media-card">
+
+  <div class="hero-visual">
+    <div class="hero-image-frame">
       <Image
-        src={headburguer}
+        src={headBurgerImg}
         alt="Hamburguesa PEPÓN"
         width={800}
-        height={600}
-        widths={[400, 728, 800]}
+        height={800}
         format="webp"
-        quality={75}
+        quality={80}
         loading="eager"
         fetchpriority="high"
+        class="hero-burger"
       />
-    </div>
-    <div class="hero-image hero-image-secondary media-card">
-      <Image
-        src={burgerClasica}
-        alt="Burger Clásica PEPÓN"
-        width={400}
-        height={300}
-        widths={[400, 728, 800]}
-        format="webp"
-        quality={75}
-        loading="lazy"
-        fetchpriority="low"
-      />
-    </div>
-    <div class="hero-image hero-image-tertiary media-card">
-      <Image
-        src={burgerDoble}
-        alt="Burger Doble PEPÓN"
-        width={400}
-        height={300}
-        widths={[400, 728, 800]}
-        format="webp"
-        quality={75}
-        loading="lazy"
-        fetchpriority="low"
-      />
+
+      <div class="sticker-star">
+        <span class="sticker-star-text">100% PEPON</span>
+      </div>
+
+      <div class="sticker-love">
+        <span aria-hidden="true">❤️</span>
+        HECHA CON AMOR
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* ==============================================
+   *  HERO — PEPÓN
+   *  Two-column grid → stacked on mobile
+   *  ============================================*/
+
   .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    padding: 6rem 2rem;
+    gap: 3rem;
+    align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    align-items: center;
-    background: linear-gradient(
-      135deg,
-      var(--hero-overlay-start),
-      var(--hero-overlay-end)
-    );
-    border-radius: 1rem;
+    padding: 3rem 2rem 5rem;
   }
 
-  .hero-content h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+  /* ----------------------------------------------
+   *  Text column
+   *  --------------------------------------------*/
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero-sticker {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0.4rem 1rem;
+    background: var(--color-secondary);
+    color: #121212;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: var(--border-brutal);
+    transform: rotate(-3deg);
+    transform-origin: left center;
+    white-space: nowrap;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.03em;
+    line-height: 0.88;
     color: var(--color-text-base);
+    text-transform: uppercase;
+    margin: 0;
   }
 
-  .hero-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
+  .hero-highlight {
+    color: var(--color-primary);
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
     color: var(--color-text-base);
-    opacity: 0.9;
+    opacity: 0.85;
+    max-width: 40ch;
+    margin: 0;
   }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
+    align-items: center;
   }
 
-  .hero-image {
-    border-radius: 1rem;
+  .btn-order {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.75rem;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal);
+    transition:
+      transform 0.1s var(--ease-spring),
+      box-shadow 0.1s var(--ease-spring);
+    cursor: pointer;
   }
 
-  .hero-image-primary {
-    grid-column: 1 / -1;
-    aspect-ratio: 4/3;
+  .btn-order:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0px var(--color-text-base);
   }
 
-  .hero-image-secondary,
-  .hero-image-tertiary {
-    aspect-ratio: 4/3;
+  .btn-order:focus-visible {
+    outline: 2px solid var(--color-text-base);
+    outline-offset: 4px;
   }
 
-  .hero-image img {
+  .btn-delivery-icon {
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 1.75rem;
+    background: transparent;
+    color: var(--color-text-base);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: var(--border-brutal);
+    transition:
+      transform 0.1s var(--ease-spring),
+      background 0.2s var(--ease-spring);
+    cursor: pointer;
+  }
+
+  .btn-outline:active {
+    transform: translate(2px, 2px);
+  }
+
+  .btn-outline:focus-visible {
+    outline: 2px solid var(--color-text-base);
+    outline-offset: 4px;
+  }
+
+  /* ----------------------------------------------
+   *  Visual column — burger + stickers
+   *  --------------------------------------------*/
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-image-frame {
+    position: relative;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 550px;
   }
+
+  .hero-burger {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── Sticker estrella "100% PEPON" ── */
+
+  .sticker-star {
+    position: absolute;
+    top: -8%;
+    right: -6%;
+    width: clamp(90px, 16vw, 150px);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-secondary);
+    clip-path: polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+    transform: rotate(12deg);
+    z-index: 2;
+  }
+
+  .sticker-star-text {
+    font-family: var(--font-display);
+    font-size: clamp(0.55rem, 1.5vw, 0.85rem);
+    font-weight: 900;
+    color: #121212;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+    padding: 0 8%;
+  }
+
+  /* ── Sticker "HECHA CON AMOR" ── */
+
+  .sticker-love {
+    position: absolute;
+    bottom: 6%;
+    left: -4%;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    background: var(--color-text-base);
+    color: var(--color-bg);
+    font-family: var(--font-display);
+    font-size: clamp(0.5rem, 1.2vw, 0.7rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 999px;
+    border: var(--border-brutal);
+    transform: rotate(-6deg);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .sticker-love span {
+    font-size: clamp(0.6rem, 1.4vw, 0.85rem);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* ----------------------------------------------
+   *  Tablet
+   *  --------------------------------------------*/
 
   @media (max-width: 1399px) {
     .hero {
-      padding: 4rem 2rem;
-      gap: 2.5rem;
-    }
-
-    .hero-content h2 {
-      font-size: 2.5rem;
+      gap: 2rem;
+      padding: 2rem 2rem 4rem;
     }
   }
+
+  /* ----------------------------------------------
+   *  Mobile
+   *  --------------------------------------------*/
 
   @media (max-width: 768px) {
     .hero {
       grid-template-columns: 1fr;
-      padding: 4rem 1.5rem;
-      gap: 2rem;
+      gap: 2.5rem;
+      padding: 1.5rem 1.25rem 3rem;
     }
 
-    .hero-content h2 {
-      font-size: 2rem;
+    .hero-text {
+      gap: 1.25rem;
+      align-items: center;
+      text-align: center;
     }
 
-    .hero-grid {
-      grid-template-columns: 1fr;
+    .hero-sticker {
+      align-self: center;
+      font-size: 0.65rem;
+    }
+
+    .hero-desc {
+      max-width: none;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-image-frame {
+      max-width: 400px;
+    }
+
+    .sticker-star {
+      top: -6%;
+      right: -4%;
+      width: clamp(70px, 18vw, 100px);
+    }
+
+    .sticker-love {
+      bottom: 4%;
+      left: -2%;
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Small mobile
+   *  --------------------------------------------*/
+
+  @media (max-width: 420px) {
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-order,
+    .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Motion safety
+   *  --------------------------------------------*/
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn-order,
+    .btn-outline {
+      transition:
+        transform 0.1s var(--ease-spring),
+        box-shadow 0.1s var(--ease-spring),
+        background 0.2s var(--ease-spring);
     }
   }
 </style>
