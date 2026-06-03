@@ -4,9 +4,9 @@ interface Props {
 	message?: string;
 }
 
-const { 
+const {
 	phoneNumber,
-	message = 'Hola, quiero hacer una consulta sobre los pases del gimnasio.' 
+	message = 'Hola, quiero hacer un pedido.' 
 } = Astro.props;
 
 function generateWhatsAppUrl(number: string, msg: string): string {

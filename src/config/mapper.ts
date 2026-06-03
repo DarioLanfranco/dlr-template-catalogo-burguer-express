@@ -24,7 +24,7 @@ export function transformConfig(raw: ClientConfigInput): UIConfig {
               title: "Próximamente",
               description:
                 "Nuestros servicios estarán disponibles pronto. Contáctanos para más información.",
-              image: "",
+              image: "headburguer.webp",
             },
           ],
   };

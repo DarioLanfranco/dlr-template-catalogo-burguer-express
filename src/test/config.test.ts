@@ -4,47 +4,47 @@ import { transformConfig } from "../config/mapper";
 import type { ClientConfigInput } from "../config/schema";
 
 const validPayload: ClientConfigInput = {
-  siteName: "Iron Pulse Gym",
-  tagline: "Transforma tu cuerpo, transforma tu vida",
-  description: "Gimnasio boutique de entrenamiento personalizado.",
+  siteName: "PEPÓN",
+  tagline: "El sabor que pega fuerte",
+  description: "Catálogo express de comidas. Hamburguesas, pizzas, empanadas, papas y más.",
   theme: {
-    primary: "#121212",
-    accent: "#FF9F1C",
-    background: "#FFFFFF",
+    primary: "#E63946",
+    accent: "#FFC300",
+    background: "#FDFBF7",
     text: "#121212",
   },
   contact: {
     phone: "+5493584201263",
-    email: "test@ironpulsegym.com",
+    email: "hola@peponexpress.com",
     address: "Av. Corrientes 1234, Buenos Aires",
     googleMapsLink: "https://maps.google.com/?q=Av.+Corrientes+1234+Buenos+Aires",
-    businessHours: "Lunes a Viernes: 6:00 - 22:00 | Sábados: 8:00 - 18:00",
+    businessHours: "Lunes a Viernes: 11:00 - 23:00 | Sábados: 11:00 - 02:00",
     whatsappNumber: "+5493584201263",
   },
   social: {
-    instagram: "https://instagram.com/ironpulsegym",
-    facebook: "https://facebook.com/ironpulsegym",
+    instagram: "https://instagram.com/pepon.express",
+    facebook: "https://facebook.com/peponexpress",
     twitter: undefined,
   },
   services: [
     {
-      title: "Entrenamiento Personal",
-      description: "Sesiones 1 a 1 con entrenadores certificados.",
-      image: "coachs1.webp",
+      title: "Hamburguesas Artesanales",
+      description: "Carne premium y pan brioche artesanal.",
+      image: "burguerclasica.webp",
     },
   ],
   about: {
     history: {
       title: "Nuestra Historia",
-      subtitle: "Desde 2015 transformando vidas",
-      text1: "Iron Pulse Gym nació de la pasión por el fitness.",
-      text2: "Hoy somos un referente en la industria del fitness.",
-      image: "coachs1.webp",
+      subtitle: "Pasión por el sabor desde 2024",
+      text1: "PEPÓN nació del amor por la comida bien hecha.",
+      text2: "Hoy seguimos creciendo con la misma receta.",
+      image: "burguertriple.webp",
     },
     mission: {
       title: "Nuestra Misión",
-      text: "Transformar vidas a través del fitness de alta calidad.",
-      image: "gym12.webp",
+      text: "Transformar la comida express en una experiencia gastronómica de alto nivel.",
+      image: "pizzaclasica.webp",
     },
   },
 };
@@ -182,17 +182,17 @@ describe("transformConfig", () => {
     if (!result.success) return;
 
     const config = transformConfig(result.data);
-    expect(config.siteName).toBe("Iron Pulse Gym");
-    expect(config.tagline).toBe("Transforma tu cuerpo, transforma tu vida");
-    expect(config.theme.primary).toBe("#121212");
-    expect(config.theme.accent).toBe("#FF9F1C");
-    expect(config.contact.email).toBe("test@ironpulsegym.com");
+    expect(config.siteName).toBe("PEPÓN");
+    expect(config.tagline).toBe("El sabor que pega fuerte");
+    expect(config.theme.primary).toBe("#E63946");
+    expect(config.theme.accent).toBe("#FFC300");
+    expect(config.contact.email).toBe("hola@peponexpress.com");
     expect(config.contact.googleMapsLink).toBe("https://maps.google.com/?q=Av.+Corrientes+1234+Buenos+Aires");
     expect(config.services).toHaveLength(1);
     expect(config.services[0].id).toBeDefined();
-    expect(config.services[0].id).toBe("entrenamiento-personal");
+    expect(config.services[0].id).toBe("hamburguesas-artesanales");
     expect(config.about.history.title).toBe("Nuestra Historia");
-    expect(config.about.mission.text).toBe("Transformar vidas a través del fitness de alta calidad.");
+    expect(config.about.mission.text).toBe("Transformar la comida express en una experiencia gastronómica de alto nivel.");
   });
 
   it("preserves multiple spaces in tagline", () => {
@@ -265,8 +265,8 @@ describe("transformConfig", () => {
     if (!result.success) return;
 
     const config = transformConfig(result.data);
-    expect(config.social.instagram).toBe("https://instagram.com/ironpulsegym");
-    expect(config.social.facebook).toBe("https://facebook.com/ironpulsegym");
+    expect(config.social.instagram).toBe("https://instagram.com/pepon.express");
+    expect(config.social.facebook).toBe("https://facebook.com/peponexpress");
     expect(config.social.twitter).toBeUndefined();
   });
 

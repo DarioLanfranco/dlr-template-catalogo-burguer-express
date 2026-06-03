@@ -8,8 +8,8 @@ interface Props {
   businessHours: string;
   address: string;
   googleMapsLink: string;
-  facebookUrl: string;
-  instagramUrl: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
   xUrl?: string;
 }
 
@@ -38,36 +38,40 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
     <div class="sucursal-item reveal-on-scroll">
       <h3>Redes Sociales</h3>
       <div class="redes-content">
-        <a
-          href={facebookUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="redes-link"
-          aria-label="Facebook"
-        >
-          <img
-            src={facebookIcon.src}
-            alt=""
-            width="48"
-            height="48"
-            loading="lazy"
-          />
-        </a>
-        <a
-          href={instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="redes-link"
-          aria-label="Instagram"
-        >
-          <img
-            src={instagramIcon.src}
-            alt=""
-            width="48"
-            height="48"
-            loading="lazy"
-          />
-        </a>
+        {facebookUrl && (
+          <a
+            href={facebookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="redes-link"
+            aria-label="Facebook"
+          >
+            <img
+              src={facebookIcon.src}
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+            />
+          </a>
+        )}
+        {instagramUrl && (
+          <a
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="redes-link"
+            aria-label="Instagram"
+          >
+            <img
+              src={instagramIcon.src}
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+            />
+          </a>
+        )}
         {xUrl && (
           <a
             href={xUrl}

@@ -2,16 +2,15 @@ import { clientConfigSchema, type ClientConfigInput } from "./schema";
 import { transformConfig } from "./mapper";
 import type { UIConfig } from "./schema";
 
-// Raw client data for Iron Pulse Gym
-const rawIronPulseConfig = {
-  siteName: "Iron Pulse Gym",
-  tagline: "Transforma tu cuerpo, transforma tu vida",
+const rawPeponConfig = {
+  siteName: "PEPÓN",
+  tagline: "El sabor que pega fuerte",
   description:
-    "Un gimnasio boutique dedicado al entrenamiento personalizado de alta calidad. Equipamiento de última generación y entrenadores certificados para ayudarte a alcanzar tus metas fitness.",
+    "Descubrí PEPÓN, el catálogo express de comidas que combina ingredientes frescos con un estilo brutal. Hamburguesas, pizzas, empanadas, papas y más para disfrutar en casa o llevar.",
   theme: {
-    primary: "#121212",
-    accent: "#FF9F1C",
-    background: "#FFFFFF",
+    primary: "#E63946",
+    accent: "#FFC300",
+    background: "#FDFBF7",
     text: "#121212",
   },
   contact: {
@@ -20,72 +19,62 @@ const rawIronPulseConfig = {
     address: "Av. Corrientes 1234, Buenos Aires",
     googleMapsLink:
       "https://maps.google.com/?q=Av.+Corrientes+1234+Buenos+Aires",
-    businessHours: "Lunes a Viernes: 6:00 - 22:00 | Sábados: 8:00 - 18:00",
+    businessHours: "Lunes a Viernes: 11:00 - 23:00 | Sábados: 11:00 - 02:00 | Domingos: 18:00 - 23:00",
     whatsappNumber: "+5493584201263",
   },
   social: {
-    instagram: "https://instagram.com/ironpulsegym",
-    facebook: "https://facebook.com/ironpulsegym",
+    instagram: "https://instagram.com/pepon.express",
+    facebook: "https://facebook.com/peponexpress",
     twitter: undefined,
   },
   services: [
     {
-      title: "Entrenamiento Personal",
+      title: "Hamburguesas Artesanales",
       description:
-        "Sesiones 1 a 1 con entrenadores certificados adaptadas a tus objetivos específicos.",
-      image: "coachs1.webp",
+        "Carne premium, pan brioche artesanal y nuestras salsas signature. La estrella del menú.",
+      image: "burguerclasica.webp",
     },
     {
-      title: "Clases Grupales",
+      title: "Pizzas al Molde",
       description:
-        "Yoga, Pilates, HIIT y más en un ambiente motivador y energético.",
-      image: "spinning1.webp",
+        "Masa madre fermentada 24hs, muzzarella fresca y los mejores toppings.",
+      image: "pizzaclasica.webp",
     },
     {
-      title: "Nutrición Deportiva",
+      title: "Combos Promo",
       description:
-        "Planes nutricionales personalizados para maximizar tus resultados.",
-      image: "pilates1.webp",
-    },
-    {
-      id: "strength-training",
-      title: "Entrenamiento de Fuerza",
-      description:
-        "Programas especializados en hipertrofia y fuerza con equipamiento profesional.",
-      image: "gym12.webp",
+        "Las mejores combinaciones para compartir o darse un capricho. Relación precio-calidad imbatible.",
+      image: "burguerdoble.webp",
     },
   ],
   about: {
     history: {
       title: "Nuestra Historia",
-      subtitle: "Desde 2015 transformando vidas",
-      text1: "Iron Pulse Gym nació de la pasión por el fitness y el deseo de crear un espacio donde cada persona pudiera alcanzar su máximo potencial. Comenzamos como un pequeño estudio de entrenamiento personal en el corazón de Buenos Aires.",
-      text2: "Hoy, somos un referente en la industria del fitness, con equipamiento de última generación y un equipo de entrenadores certificados comprometidos con tu éxito. Nuestra filosofía se basa en el entrenamiento personalizado, la nutrición inteligente y un ambiente motivador.",
-      image: "coachs1.webp",
+      subtitle: "Pasión por el sabor desde 2024",
+      text1: "PEPÓN nació del amor por la comida bien hecha y el deseo de crear una experiencia gastronómica única, donde cada bocado sea una explosión de sabor. Arrancamos como un pequeño delivery de barrio con una idea clara: comida brutal sin vueltas.",
+      text2: "Hoy seguimos creciendo con la misma receta: ingredientes frescos de primera calidad, recetas propias que rompen el molde y un equipo que pone el alma en cada pedido. Nuestra filosofía es simple: si no es PEPÓN, no es lo mismo.",
+      image: "burguertriple.webp",
     },
     mission: {
       title: "Nuestra Misión",
-      text: "Transformar vidas a través del fitness de alta calidad, proporcionando entrenamiento personalizado, nutrición deportiva y un ambiente motivador que impulse a cada miembro a alcanzar sus metas y superar sus límites.",
-      image: "gym12.webp",
+      text: "Transformar la comida express en una experiencia gastronómica de alto nivel, ofreciendo platos elaborados con ingredientes frescos, recetas originales y un servicio rápido que no sacrifica calidad. Cada pedido es una oportunidad para romper la rutina.",
+      image: "pizzaclasica.webp",
     },
   },
 } satisfies ClientConfigInput;
 
-// Validate raw config against Zod schema
-const validationResult = clientConfigSchema.safeParse(rawIronPulseConfig);
+const validationResult = clientConfigSchema.safeParse(rawPeponConfig);
 
 if (!validationResult.success) {
-  console.error("❌ FATAL: Site configuration validation failed:");
+  console.error("FATAL: Site configuration validation failed:");
   console.error(validationResult.error.issues);
   throw new Error(
     "Site configuration validation failed. The build cannot proceed with invalid configuration data.",
   );
 }
 
-// Transform validated config through the Boundary Layer
 const processedConfig: UIConfig = transformConfig(validationResult.data);
 
-// Export the final, validated, and transformed configuration
 export const siteConfig: UIConfig = processedConfig;
 
 export type { UIConfig } from "./schema";

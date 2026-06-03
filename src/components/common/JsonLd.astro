@@ -1,8 +1,8 @@
 ---
-import type { buildSiteSchema } from "../../config/helpers";
+import type { SiteSchema } from "../../config/helpers";
 
 interface Props {
-  data: ReturnType<typeof buildSiteSchema>;
+  data: SiteSchema;
 }
 
 const { data } = Astro.props;
