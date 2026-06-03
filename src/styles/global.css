@@ -1,45 +1,99 @@
 @import '@fontsource-variable/inter/wght.css';
 
+/*
+ * ──────────────────────────────────────────────
+ *  PEPÓN — Brutalismo Pop / Vibrant Foodie
+ *  Tokens, utilidades e infraestructura visual.
+ *  Migrado desde Iron Pulse Gym template.
+ * ──────────────────────────────────────────────
+ *
+ * Convención de temas:
+ *   :root (sin data-theme)            → oscuro (default)
+ *   [data-theme="dark"]               → oscuro (explícito)
+ *   [data-theme="light"]              → claro
+ *
+ * Convención de breakpoints (mobile-first):
+ *   Mobile:  ≤ 768px    @media (max-width: 768px)
+ *   Tablet:  769-1399px @media (max-width: 1399px)
+ *   Desktop: ≥ 1400px   (default — sin media query)
+ *   Media queries ordenadas widest→narrowest por cascada correcta.
+ */
+
+/* ==============================================
+ *  1. DESIGN TOKENS
+ *  ============================================*/
+
+/* --- Oscuro (default & explícito) --- */
 :root,
 [data-theme="dark"] {
+  /* Base */
+  --color-bg-base: #121212;
   --color-bg: #121212;
-  --color-primary: #FF9F1C;
   --color-text-base: #FFFFFF;
+  --color-card-base: #1A1A1A;
   --color-surface: #1A1A1A;
+  --color-border: #2A2A2A;
 
+  /* Marca */
+  --color-primary: #E63946;
+  --color-secondary: #FFC300;
+
+  /* Motion */
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 
+  /* Overlays hero */
   --hero-overlay-start: rgba(18, 18, 18, 0.95);
   --hero-overlay-end: rgba(18, 18, 18, 0.85);
+
+  /* Overlays servicios */
   --service-overlay-start: rgba(0, 0, 0, 0.9);
   --service-overlay-mid: rgba(0, 0, 0, 0.4);
   --service-text: #ffffff;
   --service-text-muted: rgba(255, 255, 255, 0.9);
+
+  /* Brutal — bordes y sombras en blanco sobre fondo oscuro */
+  --border-brutal: 3px solid #FFFFFF;
+  --shadow-brutal: 5px 5px 0px #FFFFFF;
+  --border-brutal-heavy: 4px solid #FFFFFF;
+  --shadow-brutal-heavy: 7px 7px 0px #FFFFFF;
+
+  /* Tipografía display */
+  --font-display: Impact, 'Arial Black', 'Helvetica Black', 'Franklin Gothic Heavy', sans-serif;
 }
 
+/* --- Claro --- */
 [data-theme="light"] {
-  --color-bg: #FFFFFF;
-  --color-primary: #CC6A00;
-  --color-text-base: #1A1A1A;
-  --color-surface: #F5F5F5;
+  --color-bg-base: #FDFBF7;
+  --color-bg: #FDFBF7;
+  --color-text-base: #121212;
+  --color-card-base: #FFFFFF;
+  --color-surface: #F5F0EB;
+  --color-border: #E5E0DB;
 
-  --hero-overlay-start: rgba(255, 255, 255, 0.9);
-  --hero-overlay-end: rgba(255, 255, 255, 0.8);
+  --color-primary: #E63946;
+  --color-secondary: #FFC300;
+
+  --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --hero-overlay-start: rgba(253, 251, 247, 0.9);
+  --hero-overlay-end: rgba(253, 251, 247, 0.8);
+
   --service-overlay-start: rgba(255, 255, 255, 0.9);
   --service-overlay-mid: rgba(255, 255, 255, 0.3);
   --service-text: #121212;
   --service-text-muted: rgba(18, 18, 18, 0.9);
+
+  --border-brutal: 3px solid #121212;
+  --shadow-brutal: 5px 5px 0px #121212;
+  --border-brutal-heavy: 4px solid #121212;
+  --shadow-brutal-heavy: 7px 7px 0px #121212;
+
+  --font-display: Impact, 'Arial Black', 'Helvetica Black', 'Franklin Gothic Heavy', sans-serif;
 }
 
-/*
- * Breakpoint system:
- *   Mobile:  <= 768px    @media (max-width: 768px)
- *   Tablet:  769-1399px  @media (max-width: 1399px)
- *   Desktop: >= 1400px   (default — no media query)
- *
- * Convention: Desktop default, overridden by tablet, overridden by mobile.
- * Media queries ordered widest→narrowest for correct cascade.
- */
+/* ==============================================
+ *  2. RESET & BASE
+ *  ============================================*/
 
 * {
   margin: 0;
@@ -47,7 +101,10 @@
   box-sizing: border-box;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family:
     'Inter Variable',
@@ -60,7 +117,7 @@ body {
     Ubuntu,
     Cantarell,
     sans-serif;
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-base);
   color: var(--color-text-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -78,15 +135,89 @@ img {
   display: block;
 }
 
-/*
- * Accessibility: Respect OS-level motion preference (WCAG 2.1 SC 2.3.3).
- * Users who set "Reduce motion" in their OS see content fully visible
- * and static from the start — no translateY/opacity transitions.
- *
- * Single DRY block using native CSS nesting.
- * Outer scope = accessible fallback (always visible).
- * Nested @media = animated reveal when user allows motion.
- */
+body.nav-open {
+  overflow: hidden;
+}
+
+/* ==============================================
+ *  3. TIPOGRAFÍA DISPLAY — Brutalista
+ *  ============================================*/
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* ==============================================
+ *  4. UTILIDADES BRUTALISTAS
+ *  ============================================*/
+
+/* Botón brutal */
+.btn-brutal {
+  border: var(--border-brutal);
+  box-shadow: var(--shadow-brutal);
+  transition:
+    transform 0.1s var(--ease-spring),
+    box-shadow 0.1s var(--ease-spring);
+}
+
+.btn-brutal:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px var(--color-text-base);
+}
+
+/* Tarjeta brutal */
+.card-brutal {
+  border: var(--border-brutal);
+  box-shadow: var(--shadow-brutal);
+  transition:
+    transform 0.15s var(--ease-spring),
+    box-shadow 0.15s var(--ease-spring);
+}
+
+.card-brutal:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px var(--color-text-base);
+}
+
+/* Variante heavy (CTAs principales, hero cards) */
+.btn-brutal-heavy,
+.card-brutal-heavy {
+  border: var(--border-brutal-heavy);
+  box-shadow: var(--shadow-brutal-heavy);
+  transition:
+    transform 0.15s var(--ease-spring),
+    box-shadow 0.15s var(--ease-spring);
+}
+
+.btn-brutal-heavy:active,
+.card-brutal-heavy:active {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0px var(--color-text-base);
+}
+
+/* ==============================================
+ *  5. MEDIA CARD (legacy del template gym)
+ *  ============================================*/
+
+.media-card {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.media-card:hover {
+  transform: scale(1.02);
+}
+
+/* ==============================================
+ *  6. REVEAL ON SCROLL (accesible)
+ *  ============================================*/
+
 .reveal-on-scroll {
   opacity: 1;
   transform: translateY(0);
@@ -106,29 +237,10 @@ img {
   }
 }
 
-.media-card {
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  border-radius: 1.5rem;
-  transition: transform 0.3s var(--ease-spring);
-}
+/* ==============================================
+ *  7. ACCESIBILIDAD
+ *  ============================================*/
 
-.media-card:hover {
-  transform: scale(1.02);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body.nav-open {
-  overflow: hidden;
-}
-
-/*
- * Accessibility: skip-to-content link for keyboard users (WCAG 2.4.1).
- * Hidden off-screen by default; appears at top of viewport when focused.
- */
 .skip-link {
   position: absolute;
   width: 1px;
@@ -153,7 +265,7 @@ body.nav-open {
   clip: auto;
   white-space: normal;
   background-color: var(--color-primary);
-  color: var(--color-bg);
+  color: var(--color-bg-base);
   font-weight: 600;
   font-size: 0.95rem;
   border-radius: 0.5rem;
@@ -161,4 +273,16 @@ body.nav-open {
   outline: 2px solid var(--color-text-base);
   outline-offset: 2px;
   text-decoration: none;
+}
+
+/* ==============================================
+ *  8. UTILIDADES MISCELÁNEAS
+ *  ============================================*/
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
 }
