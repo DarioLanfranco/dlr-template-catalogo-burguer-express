@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import headBurgerImg from "../../assets/images/headburguer.webp";
 import deliveryIcon from "../../assets/brand/icons/delivery.svg";
+
+const BASE = import.meta.env.BASE_URL;
 ---
 
 <section id="inicio" class="hero">
@@ -20,11 +22,11 @@ import deliveryIcon from "../../assets/brand/icons/delivery.svg";
     </p>
 
     <div class="hero-actions">
-      <a href="#menu" class="btn-order">
+      <a href={BASE + "menu/"} class="btn-order">
         <img src={deliveryIcon.src} alt="" width="24" height="24" class="btn-delivery-icon" />
         PEDÍ AHORA
       </a>
-      <a href="#menu" class="btn-outline">VER MENÚ</a>
+      <a href={BASE + "menu/"} class="btn-outline">VER MENÚ</a>
     </div>
   </div>
 

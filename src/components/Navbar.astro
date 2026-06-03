@@ -1,6 +1,24 @@
 ---
+/*
+ *  ⚠️  GitHub Pages — Links entre páginas
+ *
+ *  En prod la `base` es "/dlr-template-catalogo-burguer-express/".
+ *  Usamos `import.meta.env.BASE_URL` para rutas absolutas que
+ *  funcionan tanto en dev (/) como en prod (/repo/).
+ *
+ *  Ejemplo:
+ *    href={import.meta.env.BASE_URL + "menu/"}
+ *    → dev:  /menu/
+ *    → prod: /dlr-template-catalogo-burguer-express/menu/
+ *
+ *  Alternativa: rutas relativas (../menu/) — también funcionan
+ *  porque Astro genera index.html dentro de cada subcarpeta.
+ */
+
 import ThemeToggle from "./common/ThemeToggle.astro";
 import "./Navbar.css";
+
+const BASE = import.meta.env.BASE_URL;
 ---
 
 <nav class="navbar" aria-label="Navegación principal">
@@ -18,7 +36,7 @@ import "./Navbar.css";
     </svg>
   </button>
 
-  <a href="/" class="navbar-brand">
+  <a href={BASE} class="navbar-brand">
     <span class="brand-title">PEPON</span>
     <span class="brand-subtitle">PIZZERÍA &amp; ROTISERÍA</span>
   </a>
@@ -39,10 +57,10 @@ import "./Navbar.css";
 
   <div id="nav-links" class="nav-panel">
     <ul class="nav-links" role="list">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#conocenos">Conócenos</a></li>
-      <li><a href="#menu">Menú</a></li>
-      <li><a href="#sucursal">Sucursal</a></li>
+      <li><a href={BASE}>Inicio</a></li>
+      <li><a href={BASE + "conocenos/"}>Conócenos</a></li>
+      <li><a href={BASE + "menu/"}>Menú</a></li>
+      <li><a href={BASE + "promos/"}>Promos</a></li>
     </ul>
   </div>
 </nav>

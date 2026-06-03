@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import About from "../components/sections/About.astro";
+import Sucursal from "../components/sections/Sucursal.astro";
+import Footer from "../components/sections/Footer.astro";
+import { siteConfig } from "../config/site-config";
+
+const { about, contact, siteName, social } = siteConfig;
+---
+
+<Layout title={"Conócenos — " + siteName}>
+  <section class="page-header">
+    <h1 class="page-title">
+      <span class="page-highlight">PEPÓN</span><br />
+      ES NUESTRA PASIÓN
+    </h1>
+    <p class="page-desc">
+      Una rotisería que nació del amor por la comida bien hecha, sin vueltas
+      ni pretensiones.
+    </p>
+  </section>
+
+  <About
+    subtitle={about.history.subtitle}
+    title={about.history.title}
+    text1={about.history.text1}
+    text2={about.history.text2}
+  />
+
+  <Sucursal
+    businessHours={contact.businessHours}
+    address={contact.address}
+    googleMapsLink={contact.googleMapsLink}
+    facebookUrl={social.facebook}
+    instagramUrl={social.instagram}
+    xUrl={social.twitter}
+  />
+
+  <Footer slot="footer" siteName={siteName} />
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem 0;
+    text-align: center;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.03em;
+    line-height: 0.88;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
+
+  .page-highlight {
+    color: var(--color-primary);
+  }
+
+  .page-desc {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--color-text-base);
+    opacity: 0.8;
+    max-width: 50ch;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 2.5rem 1.5rem 0;
+    }
+  }
+</style>

@@ -12,6 +12,7 @@ import { siteConfig } from "../config/site-config";
 import { MENU_DATA } from "../data/menu";
 
 const { about, contact, siteName, social } = siteConfig;
+const BASE = import.meta.env.BASE_URL;
 ---
 
 <Layout title={siteName}>
@@ -19,7 +20,7 @@ const { about, contact, siteName, social } = siteConfig;
 
   <CategoryBar />
 
-  <SectionHeader title="LOS MÁS PEDIDOS" link="#menu" />
+  <SectionHeader title="LOS MÁS PEDIDOS" link={BASE + "menu/"} />
 
   <ProductsCarousel products={MENU_DATA} />
 
