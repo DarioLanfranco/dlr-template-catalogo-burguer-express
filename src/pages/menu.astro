@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CategoryBar from "../components/CategoryBar.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProductsCarousel from "../components/ProductsCarousel.astro";
+import ProductCard from "../components/ProductCard.astro";
+import PromoAndCheckout from "../components/PromoAndCheckout.astro";
+import Footer from "../components/sections/Footer.astro";
+import { siteConfig } from "../config/site-config";
+import { MENU_DATA } from "../data/menu";
+
+const { siteName } = siteConfig;
+---
+
+<Layout title={"Menú — " + siteName}>
+  <CategoryBar />
+
+  <SectionHeader title="LOS MÁS PEDIDOS" />
+
+  <ProductsCarousel products={MENU_DATA} />
+
+  <!--
+    Grilla completa de productos (todas las categorías).
+    En el futuro se filtrará por categoría activa.
+  -->
+  <SectionHeader title="TODAS LAS CATEGORÍAS" />
+
+  <div class="full-grid">
+    {MENU_DATA.filter((p) => p.disponible).map((p) => (
+      <ProductCard producto={p} />
+    ))}
+  </div>
+
+  <PromoAndCheckout />
+
+  <Footer slot="footer" siteName={siteName} />
+</Layout>
+
+<style>
+  .full-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0.5rem 1rem 2rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .full-grid {
+      gap: 1rem;
+      padding: 0.5rem 1.25rem 1.5rem 1.25rem;
+    }
+  }
+</style>
