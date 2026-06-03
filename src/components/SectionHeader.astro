@@ -1,0 +1,147 @@
+---
+interface Props {
+  title?: string;
+  link?: string;
+}
+
+const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
+---
+
+<div class="section-header" id="menu">
+  <div class="section-title-group">
+    <span class="deco-line" aria-hidden="true">
+      <svg width="60" height="12" viewBox="0 0 60 12" fill="none" aria-hidden="true">
+        <line x1="0" y1="6" x2="48" y2="6" stroke="currentColor" stroke-width="2"/>
+        <polygon points="52,6 46,2 46,10" fill="var(--color-primary)"/>
+      </svg>
+    </span>
+    <h2 class="section-title">{title}</h2>
+    <span class="deco-line" aria-hidden="true">
+      <svg width="60" height="12" viewBox="0 0 60 12" fill="none" aria-hidden="true">
+        <line x1="12" y1="6" x2="60" y2="6" stroke="currentColor" stroke-width="2"/>
+        <polygon points="8,6 14,2 14,10" fill="var(--color-primary)"/>
+      </svg>
+    </span>
+  </div>
+
+  <a href={link} class="btn-view-all">
+    VER TODO <span aria-hidden="true">&rarr;</span>
+  </a>
+</div>
+
+<style>
+  /* ==============================================
+   *  SECTION HEADER — PEPÓN
+   *  Título + botón VER TODO a los extremos
+   *  ============================================*/
+
+  .section-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1rem 0.5rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Grupo título + decoración ── */
+
+  .section-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .deco-line {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .deco-line svg {
+    display: block;
+    width: clamp(24px, 6vw, 60px);
+    height: auto;
+    color: var(--color-text-base);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* ── Botón VER TODO ── */
+
+  .btn-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border: var(--border-brutal);
+    font-family: var(--font-display);
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      transform 0.1s var(--ease-spring);
+    cursor: pointer;
+    flex-shrink: 0;
+
+    /* Inversión theme-aware:
+     *   dark  → bg blanco, texto negro
+     *   light → bg negro, texto blanco
+     */
+    background-color: var(--color-text-base);
+    color: var(--color-bg);
+  }
+
+  .btn-view-all:active {
+    transform: scale(0.96);
+  }
+
+  .btn-view-all:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  /* ----------------------------------------------
+   *  Mobile
+   *  --------------------------------------------*/
+
+  @media (max-width: 768px) {
+    .section-header {
+      padding: 1.25rem 1.25rem 0.5rem 1.25rem;
+    }
+
+    .section-title-group {
+      gap: 0.5rem;
+    }
+
+    .deco-line svg {
+      width: clamp(16px, 4vw, 32px);
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Tablet
+   *  --------------------------------------------*/
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .section-header {
+      padding: 1.25rem 1.5rem 0.5rem 1.5rem;
+    }
+  }
+</style>
