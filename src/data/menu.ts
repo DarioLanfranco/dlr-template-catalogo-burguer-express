@@ -23,7 +23,7 @@ interface ImageMetadata {
   src: string;
   width: number;
   height: number;
-  format: string;
+  format: "avif" | "png" | "webp" | "jpeg" | "jpg" | "svg" | "tiff" | "gif";
   orientation?: number;
 }
 

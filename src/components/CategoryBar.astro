@@ -1,0 +1,203 @@
+---
+import iconBurguer from "../assets/brand/icons/burguer.svg";
+import iconPizza from "../assets/brand/icons/pizza.svg";
+import iconEmpanada from "../assets/brand/icons/empanada.svg";
+import iconFritas from "../assets/brand/icons/fritas.svg";
+import iconBebida from "../assets/brand/icons/bebida.svg";
+import iconPromo from "../assets/brand/icons/promo.svg";
+---
+
+<nav class="category-bar" aria-label="Categorías del menú">
+  <div class="category-track">
+    <button class="category-btn is-active" aria-pressed="true">
+      <img src={iconBurguer.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">HAMBURGUESAS</span>
+    </button>
+
+    <button class="category-btn" aria-pressed="false">
+      <img src={iconPizza.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">PIZZAS</span>
+    </button>
+
+    <button class="category-btn" aria-pressed="false">
+      <img src={iconEmpanada.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">EMPANADAS</span>
+    </button>
+
+    <button class="category-btn" aria-pressed="false">
+      <img src={iconFritas.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">PAPAS</span>
+    </button>
+
+    <button class="category-btn" aria-pressed="false">
+      <img src={iconBebida.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">BEBIDAS</span>
+    </button>
+
+    <button class="category-btn" aria-pressed="false">
+      <img src={iconPromo.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
+      <span class="category-label">PROMOS</span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  /* ==============================================
+   *  CATEGORY BAR — PEPÓN
+   *  Carril horizontal con snap, centrado en desktop
+   *  ============================================*/
+
+  .category-bar {
+    width: 100%;
+  }
+
+  .category-track {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  /* ── Botón cuadrado ── */
+
+  .category-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border: 2px solid var(--color-text-base);
+    border-radius: 1rem;
+    background: var(--color-card-base);
+    cursor: pointer;
+    padding: 0.75rem;
+    gap: 0.4rem;
+    transition:
+      transform 0.1s var(--ease-spring),
+      background 0.2s var(--ease-spring);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .category-btn:active {
+    transform: scale(0.94);
+  }
+
+  .category-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  /* ── Activo ── */
+
+  .category-btn.is-active {
+    background: var(--color-primary);
+    border-color: var(--color-text-base);
+    color: #FFFFFF;
+  }
+
+  .category-btn.is-active .category-label {
+    color: #FFFFFF;
+  }
+
+  .category-btn.is-active .category-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+  }
+
+  /* ── Icono SVG ── */
+
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  [data-theme="dark"] .category-icon {
+    filter: invert(1);
+  }
+
+  /* ── Label ── */
+
+  .category-label {
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+
+  /* ==============================================
+   *  DESKTOP (≥768px) — centrado sin scroll
+   *  ============================================*/
+
+  @media (min-width: 769px) {
+    .category-track {
+      justify-content: center;
+      overflow-x: visible;
+      padding: 1rem 2rem;
+      gap: 1rem;
+    }
+
+    .category-btn {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  /* ==============================================
+   *  TABLET
+   *  ============================================*/
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .category-track {
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  /* ==============================================
+   *  MOBILE (≤768px) — scroll con snap
+   *  ============================================*/
+
+  @media (max-width: 768px) {
+    .category-bar {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .category-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-track {
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding: 0.75rem 1.25rem;
+      gap: 0.75rem;
+    }
+
+    .category-btn {
+      scroll-snap-align: start;
+      width: 85px;
+      height: 85px;
+      gap: 0.3rem;
+      padding: 0.5rem;
+    }
+
+    .category-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .category-label {
+      font-size: 0.5625rem;
+    }
+  }
+</style>

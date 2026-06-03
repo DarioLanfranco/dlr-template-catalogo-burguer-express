@@ -1,0 +1,376 @@
+---
+import { Image } from "astro:assets";
+import headBurgerImg from "../assets/images/headburguer.webp";
+
+interface Props {
+  totalPrice?: number;
+  whatsappNumber?: string;
+}
+
+const {
+  totalPrice = 15800,
+  whatsappNumber = "541112345678",
+} = Astro.props;
+
+function formatPrice(price: number): string {
+  return "$ " + price.toLocaleString("es-AR");
+}
+---
+
+<section id="combo-promo" class="promo-section">
+  <div class="promo-banner">
+    <div class="promo-left">
+      <span class="promo-sticker">PROMO</span>
+      <h2 class="promo-title">
+        COMBO<br />
+        <span class="promo-highlight">PEPON</span>
+      </h2>
+      <p class="promo-desc">
+        BURGER DOBLE + PAPAS + GASEOSA 350ML
+      </p>
+      <div class="promo-price-box">
+        <span class="promo-price">{formatPrice(12500)}</span>
+      </div>
+    </div>
+
+    <div class="promo-right">
+      <div class="promo-composition">
+        <Image
+          src={headBurgerImg}
+          alt="Hamburguesa Combo Pepón"
+          width={500}
+          height={400}
+          format="webp"
+          quality={80}
+          loading="lazy"
+          class="promo-burger"
+        />
+
+        <svg class="promo-fries" viewBox="0 0 80 100" fill="none" aria-hidden="true">
+          <rect x="8" y="15" width="14" height="58" rx="5" fill="#FFC300" stroke="#121212" stroke-width="3"/>
+          <rect x="24" y="5" width="14" height="68" rx="5" fill="#FFC300" stroke="#121212" stroke-width="3"/>
+          <rect x="40" y="22" width="14" height="51" rx="5" fill="#FFC300" stroke="#121212" stroke-width="3"/>
+          <rect x="56" y="12" width="14" height="61" rx="5" fill="#FFC300" stroke="#121212" stroke-width="3"/>
+          <ellipse cx="15" cy="18" rx="5" ry="4" fill="#E63946"/>
+          <ellipse cx="31" cy="10" rx="5" ry="4" fill="#E63946"/>
+          <ellipse cx="47" cy="25" rx="5" ry="4" fill="#E63946"/>
+          <ellipse cx="63" cy="16" rx="5" ry="4" fill="#E63946"/>
+        </svg>
+
+        <svg class="promo-soda" viewBox="0 0 50 90" fill="none" aria-hidden="true">
+          <rect x="5" y="12" width="40" height="64" rx="6" fill="#E63946" stroke="#121212" stroke-width="3"/>
+          <rect x="2" y="9" width="46" height="8" rx="4" fill="#D3D3D3" stroke="#121212" stroke-width="2.5"/>
+          <rect x="5" y="24" width="40" height="22" fill="#FFFFFF"/>
+          <rect x="5" y="24" width="40" height="6" fill="#FFC300"/>
+          <text x="25" y="39" text-anchor="middle" font-size="9" font-weight="900" fill="#121212" font-family="Impact, sans-serif">COLA</text>
+          <ellipse cx="25" cy="7" rx="6" ry="3" fill="#D3D3D3" stroke="#121212" stroke-width="2"/>
+          <rect x="5" y="68" width="40" height="8" rx="4" fill="#D3D3D3" stroke="#121212" stroke-width="2.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+        CHECKOUT BUTTON
+       ============================================-->
+  <div class="checkout-bar">
+    <a
+      href="#"
+      class="checkout-btn btn-brutal-heavy"
+      data-whatsapp={whatsappNumber}
+      data-total={totalPrice}
+      aria-label="Confirmar pedido por WhatsApp"
+    >
+      <span class="checkout-text">
+        CONFIRMAR PEDIDO
+        <small class="checkout-sub">(ENVIAR A WHATSAPP)</small>
+      </span>
+      <span class="checkout-total">{formatPrice(totalPrice)}</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  /* ==============================================
+   *  PROMO BANNER — PEPÓN
+   *  Mustard background, brutalist pop composition
+   *  ============================================*/
+
+  .promo-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+
+  /* ── Banner ── */
+
+  .promo-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: var(--color-secondary);
+    border: var(--border-brutal-heavy);
+    box-shadow: var(--shadow-brutal-heavy);
+    padding: 2.5rem 2.5rem;
+    overflow: hidden;
+  }
+
+  /* ----------------------------------------------
+   *  Left — text
+   *  --------------------------------------------*/
+
+  .promo-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .promo-sticker {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0.35rem 0.75rem;
+    background: #121212;
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    border: 3px solid #FFFFFF;
+    transform: rotate(-2deg);
+    transform-origin: left center;
+    white-space: nowrap;
+  }
+
+  .promo-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    color: #121212;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .promo-highlight {
+    color: var(--color-primary);
+  }
+
+  .promo-desc {
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #121212;
+    line-height: 1.3;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .promo-price-box {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0.6rem 1.5rem;
+    background: #FFFFFF;
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .promo-price {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--color-primary);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  /* ----------------------------------------------
+   *  Right — composition
+   *  --------------------------------------------*/
+
+  .promo-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .promo-composition {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .promo-burger {
+    width: 75%;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(4px 4px 0px #121212);
+  }
+
+  .promo-fries {
+    position: absolute;
+    left: 0;
+    bottom: 2%;
+    width: clamp(80px, 18vw, 140px);
+    height: auto;
+    z-index: 3;
+    transform: rotate(-8deg);
+    filter: drop-shadow(3px 3px 0px #121212);
+  }
+
+  .promo-soda {
+    position: absolute;
+    right: 2%;
+    bottom: 0;
+    width: clamp(50px, 12vw, 90px);
+    height: auto;
+    z-index: 1;
+    transform: rotate(6deg);
+    filter: drop-shadow(3px 3px 0px #121212);
+  }
+
+  /* ----------------------------------------------
+   *  Checkout bar
+   *  --------------------------------------------*/
+
+  .checkout-bar {
+    margin-top: 1.75rem;
+  }
+
+  .checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 1.75rem;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    text-decoration: none;
+    cursor: pointer;
+    gap: 1rem;
+  }
+
+  .checkout-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+    letter-spacing: 0.02em;
+    text-align: left;
+  }
+
+  .checkout-sub {
+    font-family: "Inter Variable", Inter, sans-serif;
+    font-size: 0.7em;
+    font-weight: 600;
+    opacity: 0.85;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .checkout-total {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+  }
+
+  /* ----------------------------------------------
+   *  Tablet
+   *  --------------------------------------------*/
+
+  @media (max-width: 1399px) {
+    .promo-section {
+      padding: 0 1.5rem 2.5rem;
+    }
+
+    .promo-banner {
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Mobile
+   *  --------------------------------------------*/
+
+  @media (max-width: 768px) {
+    .promo-section {
+      padding: 0 1.25rem 2rem;
+    }
+
+    .promo-banner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 1.75rem 1.25rem;
+    }
+
+    .promo-left {
+      align-items: flex-start;
+    }
+
+    .promo-sticker {
+      align-self: flex-start;
+    }
+
+    .promo-desc {
+      text-wrap: pretty;
+    }
+
+    .promo-composition {
+      aspect-ratio: 5 / 3;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    .promo-fries {
+      width: clamp(70px, 22vw, 110px);
+    }
+
+    .promo-soda {
+      width: clamp(40px, 15vw, 70px);
+    }
+
+    .checkout-btn {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .checkout-text {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.2rem;
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Small mobile
+   *  --------------------------------------------*/
+
+  @media (max-width: 420px) {
+    .promo-banner {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  /* ----------------------------------------------
+   *  Motion safety
+   *  --------------------------------------------*/
+
+  @media (prefers-reduced-motion: no-preference) {
+    .checkout-btn {
+      transition:
+        opacity 0.15s ease,
+        transform 0.1s var(--ease-spring);
+    }
+  }
+</style>
