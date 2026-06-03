@@ -1,0 +1,60 @@
+---
+import ProductCard from "./ProductCard.astro";
+import type { Producto } from "../data/menu";
+
+interface Props {
+  products: Producto[];
+}
+
+const { products } = Astro.props;
+---
+
+<div class="products-carousel">
+  {products.filter((p) => p.disponible).map((p) => (
+    <ProductCard producto={p} />
+  ))}
+</div>
+
+<style>
+  /* ==============================================
+   *  PRODUCTS CAROUSEL — PEPÓN
+   *  Carril horizontal con snap.
+   *  Desktop → grilla centrada sin scroll.
+   *  ============================================*/
+
+  .products-carousel {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 16px;
+    padding: 0.5rem 1rem 1.5rem 1rem;
+  }
+
+  .products-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .products-carousel {
+      overflow-x: visible;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .products-carousel {
+      padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .products-carousel {
+      padding: 0.5rem 1.25rem 1.5rem 1.25rem;
+    }
+  }
+</style>

@@ -103,8 +103,11 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
   }
 
   .sucursal h2 {
+    font-family: var(--font-display);
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
     margin-bottom: 3rem;
     text-align: center;
     color: var(--color-text-base);
@@ -113,7 +116,7 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
   .sucursal-content {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     gap: 2.5rem;
   }
@@ -124,8 +127,11 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
   }
 
   .sucursal-item h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
     margin-bottom: 0.75rem;
     color: var(--color-primary);
   }
@@ -133,7 +139,9 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
   .sucursal-item p {
     margin-bottom: 1.5rem;
     color: var(--color-text-base);
-    opacity: 0.9;
+    opacity: 0.85;
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
 
   .redes-content {
@@ -169,6 +177,11 @@ const { businessHours, address, googleMapsLink, facebookUrl, instagramUrl, xUrl 
     width: 48px;
     height: 48px;
     display: block;
+  }
+
+  /* Dark mode: social SVGs have fill="#000000" → invert to white */
+  [data-theme="dark"] .redes-link img {
+    filter: invert(1);
   }
 
   @media (max-width: 1399px) {

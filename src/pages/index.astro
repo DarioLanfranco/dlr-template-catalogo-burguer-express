@@ -1,35 +1,45 @@
 ---
-import { siteConfig } from "../config/site-config";
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/sections/Hero.astro";
+import CategoryBar from "../components/CategoryBar.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProductsCarousel from "../components/ProductsCarousel.astro";
+import PromoAndCheckout from "../components/PromoAndCheckout.astro";
 import About from "../components/sections/About.astro";
-import Mission from "../components/sections/Mission.astro";
-import Services from "../components/sections/Services.astro";
 import Sucursal from "../components/sections/Sucursal.astro";
 import Footer from "../components/sections/Footer.astro";
+import { siteConfig } from "../config/site-config";
+import { MENU_DATA } from "../data/menu";
 
-const { about, contact, services, siteName, social } = siteConfig;
+const { about, contact, siteName, social } = siteConfig;
 ---
 
 <Layout title={siteName}>
-  <main>
-    <Hero />
-    <About
-      subtitle={about.history.subtitle}
-      title={about.history.title}
-      text1={about.history.text1}
-      text2={about.history.text2}
-    />
-    <Mission title={about.mission.title} text={about.mission.text} />
-    <Services services={services} />
-    <Sucursal
-      businessHours={contact.businessHours}
-      address={contact.address}
-      googleMapsLink={contact.googleMapsLink}
-      facebookUrl={social.facebook}
-      instagramUrl={social.instagram}
-      xUrl={social.twitter}
-    />
-    <Footer slot="footer" siteName={siteName} />
-  </main>
+  <Hero />
+
+  <CategoryBar />
+
+  <SectionHeader title="LOS MÁS PEDIDOS" link="#menu" />
+
+  <ProductsCarousel products={MENU_DATA} />
+
+  <PromoAndCheckout />
+
+  <About
+    subtitle={about.history.subtitle}
+    title={about.history.title}
+    text1={about.history.text1}
+    text2={about.history.text2}
+  />
+
+  <Sucursal
+    businessHours={contact.businessHours}
+    address={contact.address}
+    googleMapsLink={contact.googleMapsLink}
+    facebookUrl={social.facebook}
+    instagramUrl={social.instagram}
+    xUrl={social.twitter}
+  />
+
+  <Footer slot="footer" siteName={siteName} />
 </Layout>
