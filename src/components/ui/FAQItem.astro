@@ -1,0 +1,79 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+  name?: string;
+}
+
+const { question, answer, name = "faq" } = Astro.props;
+---
+
+<details class="faq-item" {name}>
+  <summary class="faq-question">
+    {question}
+    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </summary>
+  <div class="faq-answer">{answer}</div>
+</details>
+
+<style>
+  .faq-item {
+    border: var(--border-brutal);
+    margin-bottom: 12px;
+    border-radius: 0.5rem;
+    background: var(--color-card-base);
+    overflow: hidden;
+  }
+
+  .faq-item[open] {
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .faq-question {
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-text-base);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question:hover {
+    background: color-mix(in srgb, var(--color-text-base) 6%, transparent);
+  }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-text-base);
+    opacity: 0.8;
+  }
+
+  .faq-item[open] .faq-answer {
+    border-top: var(--border-brutal);
+    padding-top: 1rem;
+  }
+</style>

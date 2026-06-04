@@ -1,0 +1,67 @@
+---
+import ReviewCard from "../ui/ReviewCard.astro";
+---
+
+<section class="reviews-section">
+  <h2 class="reviews-title">LA TRIBU DE PEPON</h2>
+  <div class="reviews-grid">
+    <ReviewCard
+      rating="★★★★★"
+      text='"La burger triple es una locura, la salsa bruta no tiene ningún sentido."'
+      author="— Franco de Banda Norte"
+    />
+    <ReviewCard
+      rating="★★★★★"
+      text='"Llegó re caliente el pedido y las papas súper crocantes. Diez puntos."'
+      author="— Mariano del Centro"
+    />
+    <ReviewCard
+      rating="★★★★★"
+      text='"Imposible comerse la doble con las dos manos de lo enorme que es. Tremenda."'
+      author="— Agustina de Alberdi"
+    />
+  </div>
+</section>
+
+<style>
+  .reviews-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+  }
+
+  .reviews-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 3rem;
+  }
+
+  .reviews-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .reviews-section {
+      padding: 3rem 1.25rem 2.5rem;
+    }
+
+    .reviews-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .reviews-section {
+      padding: 4rem 1.5rem 3rem;
+    }
+  }
+</style>

@@ -1,16 +1,48 @@
 ---
 import { Image } from "astro:assets";
+import { siteConfig } from "../config/site-config";
 import headBurgerImg from "../assets/images/headburguer.webp";
+
+interface ImageMetadata {
+  src: string;
+  width: number;
+  height: number;
+  format: "avif" | "png" | "webp" | "jpeg" | "jpg" | "svg" | "tiff" | "gif";
+  orientation?: number;
+}
+
+interface PromoData {
+  sticker: string;
+  title: string;
+  highlight: string;
+  desc: string;
+  price: number;
+  img: ImageMetadata;
+  imgAlt: string;
+}
 
 interface Props {
   totalPrice?: number;
   whatsappNumber?: string;
+  promo?: Partial<PromoData>;
 }
 
 const {
   totalPrice = 15800,
-  whatsappNumber = "541112345678",
+  whatsappNumber = siteConfig.contact.whatsappNumber,
+  promo = {},
 } = Astro.props;
+
+const data: PromoData = {
+  sticker: "PROMO",
+  title: "COMBO",
+  highlight: "PEPON",
+  desc: "BURGER DOBLE + PAPAS + GASEOSA 350ML",
+  price: 12500,
+  img: headBurgerImg,
+  imgAlt: "Hamburguesa Combo Pepón",
+  ...promo,
+};
 
 function formatPrice(price: number): string {
   return "$ " + price.toLocaleString("es-AR");
@@ -20,24 +52,22 @@ function formatPrice(price: number): string {
 <section id="combo-promo" class="promo-section">
   <div class="promo-banner">
     <div class="promo-left">
-      <span class="promo-sticker">PROMO</span>
+      <span class="promo-sticker">{data.sticker}</span>
       <h2 class="promo-title">
-        COMBO<br />
-        <span class="promo-highlight">PEPON</span>
+        {data.title}<br />
+        <span class="promo-highlight">{data.highlight}</span>
       </h2>
-      <p class="promo-desc">
-        BURGER DOBLE + PAPAS + GASEOSA 350ML
-      </p>
+      <p class="promo-desc">{data.desc}</p>
       <div class="promo-price-box">
-        <span class="promo-price">{formatPrice(12500)}</span>
+        <span class="promo-price">{formatPrice(data.price)}</span>
       </div>
     </div>
 
     <div class="promo-right">
       <div class="promo-composition">
         <Image
-          src={headBurgerImg}
-          alt="Hamburguesa Combo Pepón"
+          src={data.img}
+          alt={data.imgAlt}
           width={500}
           height={400}
           format="webp"
@@ -70,9 +100,6 @@ function formatPrice(price: number): string {
     </div>
   </div>
 
-  <!-- ==============================================
-        CHECKOUT BUTTON
-       ============================================-->
   <div class="checkout-bar">
     <a
       href="#"
@@ -91,18 +118,11 @@ function formatPrice(price: number): string {
 </section>
 
 <style>
-  /* ==============================================
-   *  PROMO BANNER — PEPÓN
-   *  Mustard background, brutalist pop composition
-   *  ============================================*/
-
   .promo-section {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem 3rem;
   }
-
-  /* ── Banner ── */
 
   .promo-banner {
     display: grid;
@@ -115,10 +135,6 @@ function formatPrice(price: number): string {
     padding: 2.5rem 2.5rem;
     overflow: hidden;
   }
-
-  /* ----------------------------------------------
-   *  Left — text
-   *  --------------------------------------------*/
 
   .promo-left {
     display: flex;
@@ -182,10 +198,6 @@ function formatPrice(price: number): string {
     line-height: 1;
   }
 
-  /* ----------------------------------------------
-   *  Right — composition
-   *  --------------------------------------------*/
-
   .promo-right {
     display: flex;
     justify-content: center;
@@ -233,10 +245,6 @@ function formatPrice(price: number): string {
     filter: drop-shadow(3px 3px 0px var(--color-text-base));
   }
 
-  /* ----------------------------------------------
-   *  Checkout bar
-   *  --------------------------------------------*/
-
   .checkout-bar {
     margin-top: 1.75rem;
   }
@@ -281,10 +289,6 @@ function formatPrice(price: number): string {
     color: #FFFFFF;
   }
 
-  /* ----------------------------------------------
-   *  Tablet
-   *  --------------------------------------------*/
-
   @media (max-width: 1399px) {
     .promo-section {
       padding: 0 1.5rem 2.5rem;
@@ -295,10 +299,6 @@ function formatPrice(price: number): string {
       gap: 1.5rem;
     }
   }
-
-  /* ----------------------------------------------
-   *  Mobile
-   *  --------------------------------------------*/
 
   @media (max-width: 768px) {
     .promo-section {
@@ -352,19 +352,11 @@ function formatPrice(price: number): string {
     }
   }
 
-  /* ----------------------------------------------
-   *  Small mobile
-   *  --------------------------------------------*/
-
   @media (max-width: 420px) {
     .promo-banner {
       padding: 1.25rem 1rem;
     }
   }
-
-  /* ----------------------------------------------
-   *  Motion safety
-   *  --------------------------------------------*/
 
   @media (prefers-reduced-motion: no-preference) {
     .checkout-btn {

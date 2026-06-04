@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = resolve(__dirname, "../dist");
-const base = process.env.BASE_URL || "";
+const isProd = process.env.NODE_ENV === 'production';
+const base = (process.env.BASE_URL || (isProd ? '/dlr-template-catalogo-burguer-express/' : '/')).replace(/\/+$/, '');
 
 if (!existsSync(distDir)) {
   console.error("[precache] dist/ not found — skipping (run `astro build` first)");
@@ -33,13 +34,16 @@ const assets = [base || "/"];
 for (const filePath of allFiles) {
   const rel = base + "/" + relative(distDir, filePath).replace(/\\/g, "/");
 
+  const isPageHtml =
+    rel.endsWith("/index.html") &&
+    rel !== base + "/sw.js";
+
   const isCritical =
-    rel === base + "/index.html" ||
+    isPageHtml ||
     rel === base + "/manifest.json" ||
     rel === base + "/robots.txt" ||
     rel === base + "/favicon.svg" ||
-    rel === base + "/favicon.ico" ||
-    rel === base + "/sw.js";
+    rel === base + "/favicon.ico";
 
   const isIcon = rel.startsWith(base + "/icons/");
 

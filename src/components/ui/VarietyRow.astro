@@ -1,0 +1,37 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<div class="variety-row" aria-hidden="true">
+  <span class="variety-line"></span>
+  <span class="variety-name">{name}</span>
+  <span class="variety-line"></span>
+</div>
+
+<style>
+  .variety-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .variety-line {
+    flex: 1;
+    height: 2px;
+    background: #FFFFFF;
+    opacity: 0.5;
+  }
+
+  .variety-name {
+    font-family: var(--font-display);
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
+</style>

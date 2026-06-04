@@ -1,57 +1,42 @@
 ---
-import iconBurguer from "../assets/brand/icons/burguer.svg";
-import iconPizza from "../assets/brand/icons/pizza.svg";
-import iconEmpanada from "../assets/brand/icons/empanada.svg";
-import iconFritas from "../assets/brand/icons/fritas.svg";
-import iconBebida from "../assets/brand/icons/bebida.svg";
-import iconPromo from "../assets/brand/icons/promo.svg";
+import { CATEGORIAS } from "../data/menu";
+
+interface Props {
+  filterable?: boolean;
+}
+
+const { filterable = false } = Astro.props;
+const allLabel = "TODAS";
 ---
 
 <nav class="category-carousel" aria-label="Categorías del menú">
-  <!-- 1 ── HAMBURGUESAS (activo) ── -->
-  <button class="category-btn is-active" aria-pressed="true">
-    <img src={iconBurguer.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">HAMBURGUESAS</span>
-  </button>
-
-  <!-- 2 ── PIZZAS ── -->
-  <button class="category-btn" aria-pressed="false">
-    <img src={iconPizza.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">PIZZAS</span>
-  </button>
-
-  <!-- 3 ── EMPANADAS ── -->
-  <button class="category-btn" aria-pressed="false">
-    <img src={iconEmpanada.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">EMPANADAS</span>
-  </button>
-
-  <!-- 4 ── PAPAS ── -->
-  <button class="category-btn" aria-pressed="false">
-    <img src={iconFritas.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">PAPAS</span>
-  </button>
-
-  <!-- 5 ── BEBIDAS ── -->
-  <button class="category-btn" aria-pressed="false">
-    <img src={iconBebida.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">BEBIDAS</span>
-  </button>
-
-  <!-- 6 ── PROMOS ── -->
-  <button class="category-btn" aria-pressed="false">
-    <img src={iconPromo.src} alt="" class="category-icon" width="28" height="28" loading="eager" />
-    <span class="category-label">PROMOS</span>
-  </button>
+  {filterable && (
+    <button class="category-btn is-active" aria-pressed="true">
+      <span class="category-label">{allLabel}</span>
+    </button>
+  )}
+  {
+    CATEGORIAS.map((cat, i) => (
+      <button
+        class={`category-btn${!filterable && i === 0 ? " is-active" : ""}`}
+        aria-pressed={!filterable && i === 0 ? "true" : "false"}
+        data-category-id={cat.id}
+      >
+        <img
+          src={cat.icon.src}
+          alt=""
+          class="category-icon"
+          width="28"
+          height="28"
+          loading="eager"
+        />
+        <span class="category-label">{cat.nombre.toUpperCase()}</span>
+      </button>
+    ))
+  }
 </nav>
 
 <style>
-  /* ==============================================
-   *  CATEGORY CAROUSEL — PEPÓN
-   *  Carril horizontal con snap,
-   *  centrado en desktop, scroll en mobile.
-   *  ============================================*/
-
   .category-carousel {
     display: flex;
     overflow-x: auto;
@@ -67,8 +52,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
   .category-carousel::-webkit-scrollbar {
     display: none;
   }
-
-  /* ── Botón base (inactivo) ── */
 
   .category-btn {
     display: flex;
@@ -101,8 +84,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
     outline-offset: 3px;
   }
 
-  /* ── Activo ── */
-
   .category-btn.is-active {
     background: var(--color-primary);
   }
@@ -114,8 +95,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
   .category-btn.is-active .category-icon {
     filter: brightness(0) saturate(100%) invert(1);
   }
-
-  /* ── Icono ── */
 
   .category-icon {
     width: 28px;
@@ -129,8 +108,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
     filter: invert(1);
   }
 
-  /* ── Label ── */
-
   .category-label {
     font-size: 0.625rem;
     font-weight: 800;
@@ -142,10 +119,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
     pointer-events: none;
   }
 
-  /* ==============================================
-   *  DESKTOP (≥768px) — centrado, sin scroll
-   *  ============================================*/
-
   @media (min-width: 768px) {
     .category-carousel {
       justify-content: center;
@@ -153,10 +126,6 @@ import iconPromo from "../assets/brand/icons/promo.svg";
       padding: 1rem 2rem;
     }
   }
-
-  /* ==============================================
-   *  MOBILE (≤768px)
-   *  ============================================*/
 
   @media (max-width: 768px) {
     .category-carousel {
@@ -180,3 +149,30 @@ import iconPromo from "../assets/brand/icons/promo.svg";
     }
   }
 </style>
+
+<script>
+  const nav = document.querySelector(".category-carousel");
+  const hasAllButton = nav?.querySelector(".category-btn:not([data-category-id])");
+  if (nav && hasAllButton) {
+    nav.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const btn = target.closest(".category-btn") as HTMLButtonElement | null;
+      if (!btn) return;
+
+      nav.querySelectorAll(".category-btn").forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", "true");
+
+      const categoryId = btn.getAttribute("data-category-id") || "";
+      const products = document.querySelectorAll("[data-category]");
+      products.forEach((el) => {
+        const match = !categoryId || el.getAttribute("data-category") === categoryId;
+        (el as HTMLElement).style.display = match ? "" : "none";
+      });
+    });
+  }
+</script>

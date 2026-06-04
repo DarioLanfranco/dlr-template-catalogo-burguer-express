@@ -38,16 +38,6 @@
   /* Motion */
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Overlays hero */
-  --hero-overlay-start: rgba(18, 18, 18, 0.95);
-  --hero-overlay-end: rgba(18, 18, 18, 0.85);
-
-  /* Overlays servicios */
-  --service-overlay-start: rgba(0, 0, 0, 0.9);
-  --service-overlay-mid: rgba(0, 0, 0, 0.4);
-  --service-text: #ffffff;
-  --service-text-muted: rgba(255, 255, 255, 0.9);
-
   /* Brutal — bordes y sombras en blanco sobre fondo oscuro */
   --border-brutal: 3px solid #FFFFFF;
   --shadow-brutal: 5px 5px 0px #FFFFFF;
@@ -70,14 +60,6 @@
 
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 
-  --hero-overlay-start: rgba(253, 251, 247, 0.9);
-  --hero-overlay-end: rgba(253, 251, 247, 0.8);
-
-  --service-overlay-start: rgba(255, 255, 255, 0.9);
-  --service-overlay-mid: rgba(255, 255, 255, 0.3);
-  --service-text: #121212;
-  --service-text-muted: rgba(18, 18, 18, 0.9);
-
   --border-brutal: 3px solid #121212;
   --shadow-brutal: 5px 5px 0px #121212;
   --border-brutal-heavy: 4px solid #121212;
@@ -98,6 +80,12 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -128,10 +116,6 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
-}
-
-body.nav-open {
-  overflow: hidden;
 }
 
 /* ==============================================
@@ -178,9 +162,8 @@ body.nav-open {
   box-shadow: 2px 2px 0px var(--color-text-base);
 }
 
-/* Variante heavy (CTAs principales, hero cards) */
-.btn-brutal-heavy,
-.card-brutal-heavy {
+/* Variante heavy (CTAs principales) */
+.btn-brutal-heavy {
   border: var(--border-brutal-heavy);
   box-shadow: var(--shadow-brutal-heavy);
   transition:
@@ -188,8 +171,7 @@ body.nav-open {
     box-shadow 0.15s var(--ease-spring);
 }
 
-.btn-brutal-heavy:active,
-.card-brutal-heavy:active {
+.btn-brutal-heavy:active {
   transform: translate(5px, 5px);
   box-shadow: 2px 2px 0px var(--color-text-base);
 }

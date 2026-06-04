@@ -13,15 +13,15 @@ const { siteName } = siteConfig;
 ---
 
 <Layout title={"Menú — " + siteName}>
-  <CategoryBar />
+  <CategoryBar filterable />
 
   <SectionHeader title="LOS MÁS PEDIDOS" />
 
   <ProductsCarousel products={MENU_DATA} />
 
   <!--
-    Grilla completa de productos (todas las categorías).
-    En el futuro se filtrará por categoría activa.
+    Grilla completa de productos con filtro por categoría.
+    Los botones de CategoryBar alternan estado vía JS.
   -->
   <SectionHeader title="TODAS LAS CATEGORÍAS" />
 

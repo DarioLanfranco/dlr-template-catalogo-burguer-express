@@ -4,10 +4,10 @@ interface Props {
   link?: string;
 }
 
-const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
+const { title = "LOS MÁS PEDIDOS", link } = Astro.props;
 ---
 
-<div class="section-header" id="menu">
+<div class="section-header">
   <div class="section-title-group">
     <span class="deco-line" aria-hidden="true">
       <svg width="60" height="12" viewBox="0 0 60 12" fill="none" aria-hidden="true">
@@ -24,17 +24,14 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
     </span>
   </div>
 
-  <a href={link} class="btn-view-all">
-    VER TODO <span aria-hidden="true">&rarr;</span>
-  </a>
+  {link && (
+    <a href={link} class="btn-view-all">
+      VER TODO <span aria-hidden="true">&rarr;</span>
+    </a>
+  )}
 </div>
 
 <style>
-  /* ==============================================
-   *  SECTION HEADER — PEPÓN
-   *  Título + botón VER TODO a los extremos
-   *  ============================================*/
-
   .section-header {
     display: flex;
     flex-direction: row;
@@ -44,8 +41,6 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
     max-width: 1400px;
     margin: 0 auto;
   }
-
-  /* ── Grupo título + decoración ── */
 
   .section-title-group {
     display: flex;
@@ -80,8 +75,6 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
     white-space: nowrap;
   }
 
-  /* ── Botón VER TODO ── */
-
   .btn-view-all {
     display: inline-flex;
     align-items: center;
@@ -99,11 +92,6 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
       transform 0.1s var(--ease-spring);
     cursor: pointer;
     flex-shrink: 0;
-
-    /* Inversión theme-aware:
-     *   dark  → bg blanco, texto negro
-     *   light → bg negro, texto blanco
-     */
     background-color: var(--color-text-base);
     color: var(--color-bg);
   }
@@ -116,10 +104,6 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
     outline: 2px solid var(--color-primary);
     outline-offset: 3px;
   }
-
-  /* ----------------------------------------------
-   *  Mobile
-   *  --------------------------------------------*/
 
   @media (max-width: 768px) {
     .section-header {
@@ -134,10 +118,6 @@ const { title = "LOS MÁS PEDIDOS", link = "#menu" } = Astro.props;
       width: clamp(16px, 4vw, 32px);
     }
   }
-
-  /* ----------------------------------------------
-   *  Tablet
-   *  --------------------------------------------*/
 
   @media (max-width: 1399px) and (min-width: 769px) {
     .section-header {
