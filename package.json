@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/generate-precache.js && node scripts/inject-csp-hashes.js",
+    "build": "NODE_ENV=production astro build && NODE_ENV=production node scripts/generate-precache.js && NODE_ENV=production node scripts/generate-manifest.js && NODE_ENV=production node scripts/inject-csp-hashes.js",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",

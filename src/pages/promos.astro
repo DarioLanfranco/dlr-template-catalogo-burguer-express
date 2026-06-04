@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
 import PromoAndCheckout from "../components/PromoAndCheckout.astro";
 import Footer from "../components/sections/Footer.astro";
 import { siteConfig } from "../config/site-config";
@@ -8,16 +9,11 @@ const { siteName } = siteConfig;
 ---
 
 <Layout title={"Promos — " + siteName}>
-  <section class="promos-header">
-    <h1 class="promos-title">
-      OFERTAS<br />
-      <span class="promos-highlight">BRUTALES</span>
-    </h1>
-    <p class="promos-desc">
-      Combos exclusivos, precios que rompen el molde y promos rotativas
-      para que siempre vuelvas por más.
-    </p>
-  </section>
+  <PageHeader
+    title="OFERTAS"
+    highlight="BRUTALES"
+    description="Combos exclusivos, precios que rompen el molde y promos rotativas para que siempre vuelvas por más."
+  />
 
   <!-- Combo 1 — Pepón -->
   <PromoAndCheckout />
@@ -50,37 +46,6 @@ const { siteName } = siteConfig;
 </Layout>
 
 <style>
-  /* ── Header ── */
-
-  .promos-header {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 4rem 2rem 0;
-    text-align: center;
-  }
-
-  .promos-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    letter-spacing: -0.03em;
-    line-height: 0.88;
-    color: var(--color-text-base);
-    text-transform: uppercase;
-    margin: 0 0 1rem;
-  }
-
-  .promos-highlight {
-    color: var(--color-primary);
-  }
-
-  .promos-desc {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--color-text-base);
-    opacity: 0.8;
-    max-width: 50ch;
-    margin: 0 auto 3rem;
-  }
-
   /* ── Promo card placeholder ── */
 
   .promo-card {
@@ -162,13 +127,7 @@ const { siteName } = siteConfig;
     opacity: 0.2;
   }
 
-  /* ── Mobile ── */
-
   @media (max-width: 768px) {
-    .promos-header {
-      padding: 2.5rem 1.5rem 0;
-    }
-
     .promo-card {
       grid-template-columns: 1fr;
       gap: 1.5rem;

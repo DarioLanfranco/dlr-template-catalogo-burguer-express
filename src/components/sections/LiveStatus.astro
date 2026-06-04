@@ -1,0 +1,49 @@
+---
+
+---
+
+<div class="live-status">
+  <span class="status-dot"></span>
+  <span class="status-text">¡ABIERTO AHORA! • TOMANDO PEDIDOS</span>
+</div>
+
+<style>
+  .live-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    text-align: center;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #00c853;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.5);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(0, 200, 83, 0);
+      transform: scale(1.1);
+    }
+  }
+
+  .status-text {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+</style>

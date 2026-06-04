@@ -1,0 +1,56 @@
+---
+import FAQItem from "../ui/FAQItem.astro";
+---
+
+<section class="faq-section">
+  <h2 class="faq-title">PREGUNTAS FRECUENTES</h2>
+  <div class="faq-list">
+    <FAQItem
+      question="¿Cuáles son los horarios de atención?"
+      answer="Abrimos de miércoles a domingos de 20:00 a 00:00 hs. Los viernes y sábados extendemos el cierre hasta las 00:30 hs."
+    />
+    <FAQItem
+      question="¿Qué medios de pago aceptan?"
+      answer="Podés pagar en efectivo al cadete cuando llega, o realizar transferencia bancaria y Mercado Pago enviando el comprobante."
+    />
+    <FAQItem
+      question="¿Tienen opciones vegetarianas?"
+      answer="¡Sí! Podés pedir cualquiera de nuestras burgers cambiando el medallón de carne por uno de lentejas o medallón vegetal. Buscalas en el menú."
+    />
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+  }
+
+  .faq-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    letter-spacing: -0.03em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-text-base);
+    margin: 0 0 2.5rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    .faq-section {
+      padding: 3rem 1.25rem 2rem;
+    }
+  }
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .faq-section {
+      padding: 3.5rem 1.5rem 2.5rem;
+    }
+  }
+</style>

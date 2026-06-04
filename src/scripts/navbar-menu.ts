@@ -1,7 +1,6 @@
 export function initMobileMenu(): () => void {
   const hamburgerButton = document.getElementById("hamburger-menu");
   const navLinks = document.getElementById("nav-links");
-  const body = document.body;
 
   if (!hamburgerButton || !navLinks) return () => {};
 
@@ -17,7 +16,6 @@ export function initMobileMenu(): () => void {
     links.classList.add("is-open");
     btn.setAttribute("aria-expanded", "true");
     btn.setAttribute("aria-label", "Cerrar menú de navegación");
-    body.classList.add("nav-open");
 
     const firstLink = links.querySelector("a");
     if (firstLink) {
@@ -30,7 +28,6 @@ export function initMobileMenu(): () => void {
     links.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-label", "Abrir menú de navegación");
-    body.classList.remove("nav-open");
     btn.focus({ preventScroll: true });
   }
 

@@ -1,0 +1,86 @@
+---
+
+---
+
+<section class="service-banner">
+  <div class="service-block">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+    <span class="service-text">DELIVERY EN RÍO CUARTO</span>
+  </div>
+  <div class="service-block">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+    <span class="service-text">DEMORA: 30 – 45 MIN</span>
+  </div>
+  <div class="service-block">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+    </svg>
+    <span class="service-text">EFECTIVO / TRANSFERENCIA / MERCADO PAGO</span>
+  </div>
+</section>
+
+<style>
+  .service-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background: var(--color-primary);
+    border-top: var(--border-brutal);
+    border-bottom: var(--border-brutal);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .service-banner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-block {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .service-block svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+  }
+
+  .service-text {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .service-banner {
+      gap: 1.25rem;
+      padding: 0.85rem 1.25rem;
+      justify-content: flex-start;
+    }
+
+    .service-text {
+      font-size: 0.65rem;
+    }
+  }
+
+  @media (max-width: 1399px) and (min-width: 769px) {
+    .service-banner {
+      padding: 1rem 1.5rem;
+    }
+  }
+</style>

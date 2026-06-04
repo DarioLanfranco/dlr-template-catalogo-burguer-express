@@ -13,6 +13,16 @@ Template de catálogo gastronómico express construido con **Astro + Brutalismo 
 | `npm run test` | Ejecuta tests con Vitest |
 | `npm run typecheck` | Verifica tipos con Astro Check |
 
+## Deploy
+
+| Entorno | Comando |
+|---------|---------|
+| Raíz (custom domain) | `BASE_URL=/ npm run build` |
+| Subpath (GitHub Pages) | `BASE_URL=/nombre-del-repo/ npm run build` |
+| Sin `BASE_URL` (default) | `npm run build` → `/dlr-template-catalogo-burguer-express/` |
+
+La variable `BASE_URL` define el path base del sitio. Los scripts de build (precache, manifest, CSP) la usan automáticamente. Sin `BASE_URL`, se usa `/dlr-template-catalogo-burguer-express/`.
+
 ## Stack
 
 - **Astro 6** — Framework web

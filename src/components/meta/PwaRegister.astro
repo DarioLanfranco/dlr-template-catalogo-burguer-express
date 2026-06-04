@@ -1,7 +1,16 @@
-<script is:inline>
-  if ("serviceWorker" in navigator && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("/sw.js");
-    });
-  }
-</script>
+---
+interface Props {
+  base?: string;
+}
+
+const { base = "/" } = Astro.props;
+const swPath = base.replace(/\/?$/, "") + "/sw.js";
+---
+
+<script is:inline set:html={`
+if ("serviceWorker" in navigator && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("${swPath}");
+  });
+}
+`} />

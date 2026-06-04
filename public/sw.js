@@ -1,4 +1,4 @@
-importScripts("/precache-manifest.js");
+importScripts("./precache-manifest.js");
 
 const CACHE_NAME = "pepon-cache-v1";
 const PRECACHE_URLS = self.PRECACHE_ASSETS || [];
@@ -41,7 +41,14 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           return res;
         })
-        .catch(() => caches.match(request)),
+        .catch(() =>
+          caches.match(request).then((cached) => {
+            if (cached) return cached;
+            const indexUrl = new URL(location.origin);
+            indexUrl.pathname = url.pathname.replace(/\/?$/, "/index.html");
+            return caches.match(indexUrl);
+          }),
+        ),
     );
     return;
   }

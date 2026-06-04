@@ -1,0 +1,56 @@
+---
+
+---
+
+<div class="marquee-container" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-content">
+      • ALTA BAJONA • LAS MEJORES BURGERS DE LA CIUDAD • PEDÍ Y RECIBÍ EN MINUTOS •
+      • ALTA BAJONA • LAS MEJORES BURGERS DE LA CIUDAD • PEDÍ Y RECIBÍ EN MINUTOS •
+      • ALTA BAJONA • LAS MEJORES BURGERS DE LA CIUDAD • PEDÍ Y RECIBÍ EN MINUTOS •
+    </span>
+  </div>
+</div>
+
+<style>
+  .marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-text-base);
+    color: var(--color-bg);
+    padding: 0.65rem 0;
+    transform: rotate(-1.5deg) scale(1.02);
+    white-space: nowrap;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee-content {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-right: 2rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+
+  @media (max-width: 768px) {
+    .marquee-container {
+      transform: rotate(-1.5deg) scale(1.04);
+      padding: 0.5rem 0;
+    }
+
+    .marquee-content {
+      font-size: 0.75rem;
+    }
+  }
+</style>
