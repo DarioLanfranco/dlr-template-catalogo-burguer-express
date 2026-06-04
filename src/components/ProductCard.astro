@@ -13,11 +13,15 @@ function formatPrice(price: number): string {
 }
 ---
 
-<article class="product-card" data-category={producto.categoria}>
+<article
+  class="product-card"
+  data-category={producto.categoria}
+  data-product-id={producto.id}
+  data-product-name={producto.nombre}
+  data-product-price={producto.precio}
+>
   {producto.tag && (
-    <div class="card-tag">
-      {producto.tag}
-    </div>
+    <div class="card-tag">{producto.tag}</div>
   )}
 
   <div class="card-image-wrapper">
@@ -40,19 +44,48 @@ function formatPrice(price: number): string {
 
   <div class="quantity-selector">
     <button class="qty-btn btn-minus" aria-label="Reducir cantidad">−</button>
-    <span class="quantity-display" aria-label="Cantidad">1</span>
+    <span class="quantity-display" aria-label="Cantidad">0</span>
     <button class="qty-btn btn-plus" aria-label="Aumentar cantidad">+</button>
   </div>
 </article>
 
-<style>
-  /* ==============================================
-   *  PRODUCT CARD — PEPÓN
-   *  Tarjeta individual para carrusel/grid.
-   *  Brutalista, theme-aware, con tag flotante,
-   *  imagen optimizada y selector de cantidad.
-   *  ============================================*/
+<script>
+  import { cartItems, addItem, removeItem } from "../store/cart";
 
+  const cards = document.querySelectorAll<HTMLElement>(".product-card");
+
+  function updateAllQuantities(): void {
+    const items = cartItems.get();
+    for (const card of cards) {
+      const id = card.dataset.productId ?? "";
+      const display = card.querySelector(".quantity-display") as HTMLElement | null;
+      if (!display) continue;
+      const found = items.find((i) => i.id === id);
+      display.textContent = String(found?.quantity ?? 0);
+    }
+  }
+
+  for (const card of cards) {
+    const id = card.dataset.productId ?? "";
+    const name = card.dataset.productName ?? "";
+    const price = Number(card.dataset.productPrice) || 0;
+
+    card.querySelector(".btn-plus")?.addEventListener("click", () => {
+      addItem({ id, name, price, quantity: 1 });
+    });
+
+    card.querySelector(".btn-minus")?.addEventListener("click", () => {
+      removeItem(id);
+    });
+  }
+
+  const unsub = cartItems.subscribe(updateAllQuantities);
+  updateAllQuantities();
+
+  document.addEventListener("astro:before-swap", unsub);
+</script>
+
+<style>
   .product-card {
     position: relative;
     display: flex;
@@ -67,8 +100,6 @@ function formatPrice(price: number): string {
     border-radius: 0.75rem;
     overflow: hidden;
   }
-
-  /* ── Tag flotante ── */
 
   .card-tag {
     position: absolute;
@@ -89,17 +120,10 @@ function formatPrice(price: number): string {
     transform: rotate(-3deg);
     transform-origin: left center;
     pointer-events: none;
-
-    /* Inversión theme-aware:
-     *   light → bg #121212, text #FDFBF7
-     *   dark  → bg #FFFFFF,  text #121212
-     */
     background-color: var(--color-text-base);
     color: var(--color-bg);
     border: 1.5px solid var(--color-text-base);
   }
-
-  /* ── Imagen ── */
 
   .card-image-wrapper {
     width: 100%;
@@ -117,8 +141,6 @@ function formatPrice(price: number): string {
     object-fit: cover;
     display: block;
   }
-
-  /* ── Cuerpo ── */
 
   .card-body {
     display: flex;
@@ -156,8 +178,6 @@ function formatPrice(price: number): string {
     color: var(--color-primary);
     margin-top: auto;
   }
-
-  /* ── Selector de cantidad ── */
 
   .quantity-selector {
     display: flex;
@@ -216,10 +236,6 @@ function formatPrice(price: number): string {
     color: #FFFFFF;
     font-size: 1.25rem;
   }
-
-  /* ----------------------------------------------
-   *  Mobile
-   *  --------------------------------------------*/
 
   @media (max-width: 768px) {
     .product-card {
