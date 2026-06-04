@@ -22,16 +22,11 @@ interface PromoData {
 }
 
 interface Props {
-  totalPrice?: number;
   whatsappNumber?: string;
   promo?: Partial<PromoData>;
 }
 
-const {
-  totalPrice = 15800,
-  whatsappNumber = siteConfig.contact.whatsappNumber,
-  promo = {},
-} = Astro.props;
+const { whatsappNumber = siteConfig.contact.whatsappNumber, promo = {} } = Astro.props;
 
 const data: PromoData = {
   sticker: "PROMO",
@@ -43,13 +38,9 @@ const data: PromoData = {
   imgAlt: "Hamburguesa Combo Pepón",
   ...promo,
 };
-
-function formatPrice(price: number): string {
-  return "$ " + price.toLocaleString("es-AR");
-}
 ---
 
-<section id="combo-promo" class="promo-section">
+<section id="combo-promo" class="promo-section" data-whatsapp={whatsappNumber} data-site={siteConfig.siteName}>
   <div class="promo-banner">
     <div class="promo-left">
       <span class="promo-sticker">{data.sticker}</span>
@@ -59,7 +50,7 @@ function formatPrice(price: number): string {
       </h2>
       <p class="promo-desc">{data.desc}</p>
       <div class="promo-price-box">
-        <span class="promo-price">{formatPrice(data.price)}</span>
+        <span class="promo-price">$ {data.price.toLocaleString("es-AR")}</span>
       </div>
     </div>
 
@@ -101,21 +92,63 @@ function formatPrice(price: number): string {
   </div>
 
   <div class="checkout-bar">
-    <a
-      href="#"
+    <button
+      type="button"
       class="checkout-btn btn-brutal-heavy"
-      data-whatsapp={whatsappNumber}
-      data-total={totalPrice}
+      id="quick-checkout-btn"
       aria-label="Confirmar pedido por WhatsApp"
     >
       <span class="checkout-text">
         CONFIRMAR PEDIDO
         <small class="checkout-sub">(ENVIAR A WHATSAPP)</small>
       </span>
-      <span class="checkout-total">{formatPrice(totalPrice)}</span>
-    </a>
+      <span class="checkout-total" id="quick-checkout-total">$ 0</span>
+    </button>
   </div>
 </section>
+
+<script>
+  import { cartItems, total, isCartValid } from "../store/cart";
+  import { buildQuickOrderMessage, getWhatsAppUrl } from "../services/orderService";
+  import { formatPrice } from "../lib/checkout";
+
+  const section = document.querySelector(".promo-section") as HTMLElement | null;
+  const phoneNumber = section?.dataset.whatsapp ?? "";
+  const siteName = section?.dataset.site ?? "PEPÓN";
+  const btn = document.getElementById("quick-checkout-btn") as HTMLButtonElement | null;
+  const totalDisplay = document.getElementById("quick-checkout-total") as HTMLElement | null;
+
+  function updateCheckout(): void {
+    const valid = isCartValid.get();
+    const totalValue = total.get();
+
+    if (totalDisplay) totalDisplay.textContent = formatPrice(totalValue);
+    if (btn) btn.disabled = !valid;
+  }
+
+  btn?.addEventListener("click", () => {
+    const items = cartItems.get();
+    if (items.length === 0) {
+      alert("Agregá productos al carrito antes de confirmar.");
+      return;
+    }
+
+    const totalValue = total.get();
+    const message = buildQuickOrderMessage(items, totalValue, siteName);
+    const url = getWhatsAppUrl(phoneNumber, message);
+
+    window.open(url, "_blank");
+  });
+
+  const unsubItems = total.subscribe(updateCheckout);
+  const unsubValid = isCartValid.subscribe(updateCheckout);
+  updateCheckout();
+
+  document.addEventListener("astro:before-swap", () => {
+    unsubItems();
+    unsubValid();
+  });
+</script>
 
 <style>
   .promo-section {
@@ -260,6 +293,24 @@ function formatPrice(price: number): string {
     text-decoration: none;
     cursor: pointer;
     gap: 1rem;
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+  }
+
+  .checkout-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .checkout-btn:not(:disabled):active {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0px var(--color-text-base);
+  }
+
+  .checkout-btn:focus-visible {
+    outline: 2px solid var(--color-text-base);
+    outline-offset: 4px;
   }
 
   .checkout-text {
@@ -360,9 +411,7 @@ function formatPrice(price: number): string {
 
   @media (prefers-reduced-motion: no-preference) {
     .checkout-btn {
-      transition:
-        opacity 0.15s ease,
-        transform 0.1s var(--ease-spring);
+      transition: opacity 0.15s ease, transform 0.1s var(--ease-spring);
     }
   }
 </style>

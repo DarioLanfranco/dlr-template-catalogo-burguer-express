@@ -1,0 +1,450 @@
+---
+interface Props {
+  phoneNumber: string;
+  siteName?: string;
+}
+
+const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
+---
+
+<section
+  class="order-section"
+  id="order-checkout-section"
+  aria-labelledby="order-heading"
+  data-phone={phoneNumber}
+  data-site={siteName}
+>
+  <h2 id="order-heading" class="order-heading">
+    FINALIZAR<br /><span class="order-highlight">PEDIDO</span>
+  </h2>
+
+  <div id="order-cart-summary" class="order-cart-summary" aria-live="polite">
+    <p class="order-empty">El carrito está vacío.</p>
+  </div>
+
+  <form id="order-form" class="order-form" novalidate>
+    <div class="form-field">
+      <label for="client-name" class="form-label">Nombre Completo</label>
+      <input
+        id="client-name"
+        name="customerName"
+        type="text"
+        required
+        autocomplete="name"
+        placeholder="Ej: Juan Pérez"
+        class="form-input"
+      />
+      <span class="form-error" id="error-name" role="alert"></span>
+    </div>
+
+    <div class="form-field">
+      <label for="shipping-method" class="form-label">Método de Entrega</label>
+      <select id="shipping-method" name="deliveryMode" required class="form-input">
+        <option value="">Seleccioná un método</option>
+        <option value="delivery">Envío a Domicilio</option>
+        <option value="pickup">Retiro en Local / Take Away</option>
+      </select>
+      <span class="form-error" id="error-delivery" role="alert"></span>
+    </div>
+
+    <div class="form-field" id="address-field">
+      <label for="client-address" class="form-label">Dirección Física</label>
+      <input
+        id="client-address"
+        name="deliveryAddress"
+        type="text"
+        autocomplete="street-address"
+        placeholder="Calle y Número"
+        class="form-input"
+      />
+      <span class="form-hint">Solo para envío a domicilio.</span>
+      <span class="form-error" id="error-address" role="alert"></span>
+    </div>
+
+    <div class="form-field">
+      <label for="payment-method" class="form-label">Método de Pago</label>
+      <select id="payment-method" name="paymentMethod" required class="form-input">
+        <option value="">Seleccioná un método</option>
+        <option value="cash">Efectivo al Cadete</option>
+        <option value="transfer">Transferencia / Mercado Pago</option>
+      </select>
+      <span class="form-error" id="error-payment" role="alert"></span>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="order-submit" id="order-submit-btn">
+        <span class="order-submit-text">ENCARGAR PEDIDO</span>
+        <span class="order-submit-price" id="order-total-display">$ 0</span>
+      </button>
+    </div>
+  </form>
+</section>
+
+<script>
+  import { cartItems, total, isCartValid, clearCart } from "../../store/cart";
+  import { buildOrderMessage, getWhatsAppUrl } from "../../services/orderService";
+  import { formatPrice } from "../../lib/checkout";
+
+  const section = document.getElementById("order-checkout-section") as HTMLElement | null;
+  const phoneNumber = section?.dataset.phone ?? "";
+  const siteName = section?.dataset.site ?? "PEPÓN";
+  const form = document.getElementById("order-form") as HTMLFormElement | null;
+  const summary = document.getElementById("order-cart-summary") as HTMLElement | null;
+  const submitBtn = document.getElementById("order-submit-btn") as HTMLButtonElement | null;
+  const totalDisplay = document.getElementById("order-total-display") as HTMLElement | null;
+  const shippingSelect = document.getElementById("shipping-method") as HTMLSelectElement | null;
+  const addressInput = document.getElementById("client-address") as HTMLInputElement | null;
+
+  const CART_EMPTY_HTML = `<p class="order-empty">El carrito está vacío.</p>`;
+
+  function renderSummary(): void {
+    if (!summary || !submitBtn) return;
+
+    const items = cartItems.get();
+    const totalValue = total.get();
+    const valid = isCartValid.get();
+
+    submitBtn.disabled = !valid;
+
+    if (items.length === 0) {
+      summary.innerHTML = CART_EMPTY_HTML;
+      if (totalDisplay) totalDisplay.textContent = "$ 0";
+      return;
+    }
+
+    const listHtml = items
+      .map(
+        (item) =>
+          `<li class="summary-item">
+            <span class="summary-qty">${item.quantity}x</span>
+            <span class="summary-name">${item.name}${item.variant ? ` <small class="summary-variant">(${item.variant})</small>` : ""}</span>
+            <span class="summary-price">${formatPrice(item.price * item.quantity)}</span>
+          </li>`,
+      )
+      .join("");
+
+    summary.innerHTML = `
+      <ul class="summary-list">${listHtml}</ul>
+      <div class="summary-total">
+        <span>TOTAL</span>
+        <span>${formatPrice(totalValue)}</span>
+      </div>`;
+
+    if (totalDisplay) totalDisplay.textContent = formatPrice(totalValue);
+  }
+
+  function showFieldError(fieldId: string, message: string): void {
+    const errorEl = document.getElementById(fieldId);
+    if (errorEl) errorEl.textContent = message;
+  }
+
+  function clearErrors(): void {
+    document.querySelectorAll("#order-checkout-section .form-error").forEach((el) => {
+      el.textContent = "";
+    });
+  }
+
+  function handleDeliveryModeChange(): void {
+    if (!shippingSelect || !addressInput) return;
+    const isPickup = shippingSelect.value === "pickup";
+    addressInput.required = !isPickup;
+    addressInput.disabled = isPickup;
+    if (isPickup) {
+      addressInput.value = "";
+      addressInput.placeholder = "No aplica (retiro en local)";
+    } else {
+      addressInput.placeholder = "Calle y Número";
+    }
+  }
+
+  function handleSubmit(e: Event): void {
+    e.preventDefault();
+    clearErrors();
+
+    if (!isCartValid.get()) {
+      alert("Agregá productos válidos al carrito antes de encargar.");
+      return;
+    }
+
+    const formData = new FormData(form ?? undefined);
+    const customerName = (formData.get("customerName") as string)?.trim() ?? "";
+    const deliveryMode = (formData.get("deliveryMode") as string) ?? "";
+    const deliveryAddress = (formData.get("deliveryAddress") as string)?.trim() ?? "";
+    const paymentMethod = (formData.get("paymentMethod") as string) ?? "";
+
+    let hasError = false;
+
+    if (!customerName) {
+      showFieldError("error-name", "El nombre es obligatorio.");
+      hasError = true;
+    }
+
+    if (!deliveryMode) {
+      showFieldError("error-delivery", "Seleccioná un método de entrega.");
+      hasError = true;
+    }
+
+    if (deliveryMode === "delivery" && !deliveryAddress) {
+      showFieldError("error-address", "Ingresá una dirección para el envío.");
+      hasError = true;
+    }
+
+    if (!paymentMethod) {
+      showFieldError("error-payment", "Seleccioná un método de pago.");
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    const items = cartItems.get();
+    const totalValue = total.get();
+
+    const message = buildOrderMessage(items, totalValue, { customerName, deliveryMode, deliveryAddress, paymentMethod }, siteName);
+    const url = getWhatsAppUrl(phoneNumber, message);
+
+    const win = window.open(url, "_blank");
+    if (win) {
+      clearCart();
+    }
+  }
+
+  function cleanup(): void {
+    unsubCart();
+    form?.removeEventListener("submit", handleSubmit);
+    shippingSelect?.removeEventListener("change", handleDeliveryModeChange);
+    document.removeEventListener("astro:before-swap", cleanup);
+  }
+
+  const unsubCart = cartItems.subscribe(renderSummary);
+
+  form?.addEventListener("submit", handleSubmit);
+  shippingSelect?.addEventListener("change", handleDeliveryModeChange);
+
+  document.addEventListener("astro:before-swap", cleanup);
+
+  renderSummary();
+  handleDeliveryModeChange();
+</script>
+
+<style>
+  .order-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .order-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 0.88;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+    margin: 0 0 1.5rem;
+  }
+
+  .order-highlight {
+    color: var(--color-primary);
+  }
+
+  .order-cart-summary {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal);
+    background: var(--color-card-base);
+    border-radius: 0.5rem;
+  }
+
+  .order-empty {
+    text-align: center;
+    opacity: 0.5;
+    font-size: 0.875rem;
+    padding: 1rem 0;
+    margin: 0;
+  }
+
+  .summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .summary-qty {
+    font-weight: 800;
+    color: var(--color-primary);
+    min-width: 2rem;
+    flex-shrink: 0;
+  }
+
+  .summary-name {
+    flex: 1;
+    color: var(--color-text-base);
+  }
+
+  .summary-variant {
+    opacity: 0.6;
+    font-weight: 400;
+  }
+
+  .summary-price {
+    font-weight: 700;
+    color: var(--color-text-base);
+    white-space: nowrap;
+  }
+
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 2px solid var(--color-text-base);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--color-text-base);
+  }
+
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text-base);
+    text-transform: uppercase;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: "Inter Variable", Inter, sans-serif;
+    font-size: 1rem;
+    color: var(--color-text-base);
+    background: var(--color-card-base);
+    border: var(--border-brutal);
+    border-radius: 0.25rem;
+    outline: none;
+    transition: border-color 0.15s var(--ease-spring);
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+  }
+
+  .form-input::placeholder {
+    opacity: 0.4;
+  }
+
+  .form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  .form-input:user-invalid {
+    border-color: var(--color-primary);
+  }
+
+  .form-input:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23121212' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+
+  .form-hint {
+    font-size: 0.75rem;
+    opacity: 0.5;
+  }
+
+  .form-error {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    min-height: 1em;
+  }
+
+  .form-actions {
+    margin-top: 0.5rem;
+  }
+
+  .order-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    border: var(--border-brutal-heavy);
+    box-shadow: var(--shadow-brutal-heavy);
+    cursor: pointer;
+    transition: transform 0.1s var(--ease-spring), box-shadow 0.1s var(--ease-spring);
+  }
+
+  .order-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-brutal-heavy);
+  }
+
+  .order-submit:not(:disabled):active {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0px var(--color-text-base);
+  }
+
+  .order-submit:focus-visible {
+    outline: 2px solid var(--color-text-base);
+    outline-offset: 4px;
+  }
+
+  .order-submit-text {
+    text-align: left;
+  }
+
+  .order-submit-price {
+    flex-shrink: 0;
+    font-size: 1.15em;
+  }
+
+  @media (max-width: 768px) {
+    .order-section {
+      padding: 1.5rem 1rem 2rem;
+    }
+
+    .order-submit {
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 0.85rem 1.25rem;
+    }
+  }
+</style>

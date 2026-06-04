@@ -49,8 +49,8 @@ const BASE = import.meta.env.BASE_URL;
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
       <span class="cart-divider" aria-hidden="true"></span>
-      <span class="cart-badge" aria-label="2 productos">2</span>
-      <span class="cart-total">$ 15.800</span>
+      <span class="cart-badge" aria-label="0 productos">0</span>
+      <span class="cart-total">$ 0</span>
     </button>
   </div>
 
@@ -66,11 +66,46 @@ const BASE = import.meta.env.BASE_URL;
 
 <script>
   import { initMobileMenu } from "../scripts/navbar-menu";
+  import { totalItems, total } from "../store/cart";
+  import { formatPrice } from "../lib/checkout";
 
   const disconnectMobile = initMobileMenu();
 
+  const cartBtn = document.querySelector(".cart-btn") as HTMLElement | null;
+  const badge = document.querySelector(".cart-badge") as HTMLElement | null;
+  const totalEl = document.querySelector(".cart-total") as HTMLElement | null;
+
+  function updateCartDisplay(): void {
+    const count = totalItems.get();
+    const price = total.get();
+
+    if (badge) {
+      badge.textContent = String(count);
+      badge.setAttribute("aria-label", `${count} producto${count !== 1 ? "s" : ""}`);
+      badge.classList.toggle("is-hidden", count === 0);
+    }
+    if (totalEl) totalEl.textContent = formatPrice(price);
+  }
+
+  cartBtn?.addEventListener("click", () => {
+    const target = document.getElementById("checkout-form-section");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const input = target.querySelector("#customer-name") as HTMLElement | null;
+      setTimeout(() => input?.focus(), 500);
+    }
+  });
+
+  const unsubItems = totalItems.subscribe(updateCartDisplay);
+  const unsubTotal = total.subscribe(updateCartDisplay);
+
+  updateCartDisplay();
+
   function cleanup() {
     disconnectMobile();
+    unsubItems();
+    unsubTotal();
+    cartBtn?.removeEventListener("click", updateCartDisplay);
     document.removeEventListener("astro:before-swap", cleanup);
   }
 
@@ -204,6 +239,10 @@ const BASE = import.meta.env.BASE_URL;
     font-size: 0.6875rem;
     font-weight: 800;
     line-height: 1;
+  }
+
+  .cart-badge.is-hidden {
+    display: none;
   }
 
   .cart-total {

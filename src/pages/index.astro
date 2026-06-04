@@ -8,6 +8,7 @@ import Marquee from "../components/sections/Marquee.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ProductsCarousel from "../components/ProductsCarousel.astro";
 import PromoAndCheckout from "../components/PromoAndCheckout.astro";
+import OrderCheckout from "../components/cart/OrderCheckout.astro";
 import FriesBanner from "../components/sections/FriesBanner.astro";
 import TakeAwayBanner from "../components/sections/TakeAwayBanner.astro";
 import ReviewsSection from "../components/sections/ReviewsSection.astro";
@@ -31,6 +32,7 @@ const BASE = import.meta.env.BASE_URL;
   <SectionHeader title="LOS MÁS PEDIDOS" link={BASE + "menu/"} />
   <ProductsCarousel products={MENU_DATA} />
   <PromoAndCheckout />
+  <OrderCheckout phoneNumber={contact.whatsappNumber} siteName={siteName} />
   <FriesBanner />
   <TakeAwayBanner address={contact.address} />
   <ReviewsSection />
