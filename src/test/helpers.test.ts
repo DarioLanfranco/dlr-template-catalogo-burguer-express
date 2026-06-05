@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseOpeningHours, parseAddress } from "../config/helpers";
+import { parseOpeningHours, parseAddress, safeJsonLd } from "../config/helpers";
 
 describe("parseOpeningHours", () => {
   it("parses a standard weekday + weekend range", () => {
@@ -143,5 +143,29 @@ describe("parseAddress", () => {
   it("returns the correct schema type", () => {
     const result = parseAddress("Calle 1, Ciudad");
     expect(result["@type"]).toBe("PostalAddress");
+  });
+});
+
+describe("safeJsonLd", () => {
+  it("returns valid JSON for a plain object", () => {
+    const result = safeJsonLd({ name: "Pepón", price: 7200 });
+    expect(result).toBe('{"name":"Pepón","price":7200}');
+  });
+
+  it("escapes </script> sequences to prevent XSS", () => {
+    const malicious = { html: "</script><img src=x onerror=alert(1)>" };
+    const result = safeJsonLd(malicious);
+    expect(result).not.toContain("</script>");
+    expect(result).toContain("<\\/script>");
+  });
+
+  it("handles null input gracefully", () => {
+    const result = safeJsonLd(null);
+    expect(result).toBe("null");
+  });
+
+  it("handles undefined input gracefully", () => {
+    const result = safeJsonLd(undefined);
+    expect(result).toBe("");
   });
 });

@@ -105,10 +105,17 @@ const data: PromoData = {
       <span class="checkout-total" id="quick-checkout-total">$ 0</span>
     </button>
   </div>
+
+  <div id="quick-fallback" class="quick-fallback" role="alert" hidden>
+    <p class="fallback-message">No se pudo abrir WhatsApp automáticamente.</p>
+    <a id="quick-fallback-link" class="fallback-link" href="#" target="_blank" rel="noopener">
+      Hacé click acá para enviar el pedido →
+    </a>
+  </div>
 </section>
 
 <script>
-  import { cartItems, total, isCartValid } from "../store/cart";
+  import { cartItems, total, isCartValid, clearCart } from "../store/cart";
   import { buildQuickOrderMessage, getWhatsAppUrl } from "../services/orderService";
   import { formatPrice } from "../lib/checkout";
 
@@ -117,6 +124,10 @@ const data: PromoData = {
   const siteName = section?.dataset.site ?? "PEPÓN";
   const btn = document.getElementById("quick-checkout-btn") as HTMLButtonElement | null;
   const totalDisplay = document.getElementById("quick-checkout-total") as HTMLElement | null;
+  const fallbackEl = document.getElementById("quick-fallback") as HTMLElement | null;
+  const fallbackLink = document.getElementById("quick-fallback-link") as HTMLAnchorElement | null;
+
+  let isSubmitting = false;
 
   function updateCheckout(): void {
     const valid = isCartValid.get();
@@ -126,28 +137,50 @@ const data: PromoData = {
     if (btn) btn.disabled = !valid;
   }
 
-  btn?.addEventListener("click", () => {
+  function handleQuickCheckout(): void {
+    if (isSubmitting || !btn) return;
+
     const items = cartItems.get();
     if (items.length === 0) {
       alert("Agregá productos al carrito antes de confirmar.");
       return;
     }
 
+    isSubmitting = true;
+    btn.disabled = true;
+    if (fallbackEl) fallbackEl.hidden = true;
+
     const totalValue = total.get();
     const message = buildQuickOrderMessage(items, totalValue, siteName);
     const url = getWhatsAppUrl(phoneNumber, message);
 
-    window.open(url, "_blank");
-  });
+    const win = window.open(url, "_blank");
+    if (win) {
+      clearCart();
+    } else {
+      isSubmitting = false;
+      btn.disabled = false;
+      if (fallbackLink && fallbackEl) {
+        fallbackLink.href = url;
+        fallbackEl.hidden = false;
+      }
+    }
+  }
+
+  btn?.addEventListener("click", handleQuickCheckout);
 
   const unsubItems = total.subscribe(updateCheckout);
   const unsubValid = isCartValid.subscribe(updateCheckout);
   updateCheckout();
 
-  document.addEventListener("astro:before-swap", () => {
+  function cleanup(): void {
     unsubItems();
     unsubValid();
-  });
+    btn?.removeEventListener("click", handleQuickCheckout);
+    document.removeEventListener("astro:before-swap", cleanup);
+  }
+
+  document.addEventListener("astro:before-swap", cleanup);
 </script>
 
 <style>
@@ -413,5 +446,14 @@ const data: PromoData = {
     .checkout-btn {
       transition: opacity 0.15s ease, transform 0.1s var(--ease-spring);
     }
+  }
+
+  .quick-fallback {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    text-align: center;
   }
 </style>
