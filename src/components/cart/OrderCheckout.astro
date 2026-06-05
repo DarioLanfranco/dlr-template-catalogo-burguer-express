@@ -78,6 +78,13 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
       </button>
     </div>
   </form>
+
+  <div id="order-fallback" class="order-fallback" role="alert" hidden>
+    <p class="fallback-message">No se pudo abrir WhatsApp automáticamente.</p>
+    <a id="order-fallback-link" class="fallback-link" href="#" target="_blank" rel="noopener">
+      Hacé click acá para enviar el pedido →
+    </a>
+  </div>
 </section>
 
 <script>
@@ -96,6 +103,14 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
   const addressInput = document.getElementById("client-address") as HTMLInputElement | null;
 
   const CART_EMPTY_HTML = `<p class="order-empty">El carrito está vacío.</p>`;
+  const SUBMIT_TEXT = "ENCARGAR PEDIDO";
+  const SUBMIT_SENDING = "ENVIANDO...";
+
+  const fallbackEl = document.getElementById("order-fallback") as HTMLElement | null;
+  const fallbackLink = document.getElementById("order-fallback-link") as HTMLAnchorElement | null;
+  const submitTextEl = document.querySelector(".order-submit-text") as HTMLElement | null;
+
+  let isSubmitting = false;
 
   function renderSummary(): void {
     if (!summary || !submitBtn) return;
@@ -144,6 +159,17 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
     });
   }
 
+  function hideFallback(): void {
+    if (fallbackEl) fallbackEl.hidden = true;
+  }
+
+  function showFallbackLink(url: string): void {
+    if (fallbackLink && fallbackEl) {
+      fallbackLink.href = url;
+      fallbackEl.hidden = false;
+    }
+  }
+
   function handleDeliveryModeChange(): void {
     if (!shippingSelect || !addressInput) return;
     const isPickup = shippingSelect.value === "pickup";
@@ -159,7 +185,12 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
 
   function handleSubmit(e: Event): void {
     e.preventDefault();
+
+    if (isSubmitting) return;
+    if (!submitBtn) return;
+
     clearErrors();
+    hideFallback();
 
     if (!isCartValid.get()) {
       alert("Agregá productos válidos al carrito antes de encargar.");
@@ -196,6 +227,10 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
 
     if (hasError) return;
 
+    isSubmitting = true;
+    submitBtn.disabled = true;
+    if (submitTextEl) submitTextEl.textContent = SUBMIT_SENDING;
+
     const items = cartItems.get();
     const totalValue = total.get();
 
@@ -205,6 +240,11 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
     const win = window.open(url, "_blank");
     if (win) {
       clearCart();
+    } else {
+      isSubmitting = false;
+      submitBtn.disabled = false;
+      if (submitTextEl) submitTextEl.textContent = SUBMIT_TEXT;
+      showFallbackLink(url);
     }
   }
 
@@ -434,6 +474,35 @@ const { phoneNumber, siteName = "PEPÓN" } = Astro.props;
   .order-submit-price {
     flex-shrink: 0;
     font-size: 1.15em;
+  }
+
+  .order-fallback {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    text-align: center;
+  }
+
+  .fallback-message {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-base);
+  }
+
+  .fallback-link {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .fallback-link:visited {
+    color: var(--color-primary);
   }
 
   @media (max-width: 768px) {

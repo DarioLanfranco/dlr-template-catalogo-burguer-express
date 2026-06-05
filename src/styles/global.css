@@ -252,14 +252,4 @@ img {
   text-decoration: none;
 }
 
-/* ==============================================
- *  8. UTILIDADES MISCELÁNEAS
- *  ============================================*/
 
-.text-balance {
-  text-wrap: balance;
-}
-
-.text-pretty {
-  text-wrap: pretty;
-}

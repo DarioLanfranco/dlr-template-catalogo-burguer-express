@@ -1,20 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../config/site-config";
+
+const BASE = import.meta.env.BASE_URL;
 ---
 
-<Layout title="Página no encontrada">
-
-
-
-
-<Layout title="Página no encontrada — " + siteConfig.siteName>
+<Layout title={`Página no encontrada — ${siteConfig.siteName}`}>
   <section class="not-found">
     <h1 class="nf-code">404</h1>
     <p class="nf-desc">Página no encontrada</p>
     <p class="nf-sub">
       La página que buscas no existe o fue movida.
     </p>
-    <a href="/" class="nf-link">VOLVER AL INICIO</a>
+    <a href={BASE} class="nf-link">VOLVER AL INICIO</a>
   </section>
 </Layout>
 
@@ -49,7 +47,7 @@ import Layout from "../layouts/Layout.astro";
 
   .nf-sub {
     font-size: 1rem;
-    color: var(--color-text-muted, var(--color-text-base));
+    color: var(--color-text-base);
     opacity: 0.7;
     margin: 0 0 2rem;
     max-width: 28rem;

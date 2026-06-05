@@ -95,6 +95,12 @@ export function buildSiteSchema(
 
 export type SiteSchema = ReturnType<typeof buildSiteSchema>;
 
+export function safeJsonLd(data: unknown): string {
+  const raw = JSON.stringify(data);
+  if (typeof raw !== "string") return "";
+  return raw.replace(/<\//g, "<\\/");
+}
+
 export function parseAddress(raw: string, defaultLocality = "Ciudad Autónoma de Buenos Aires"): PostalAddress {
   const parts = raw.split(",").map((p) => p.trim());
   if (parts.length >= 2) {

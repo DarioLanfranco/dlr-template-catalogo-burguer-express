@@ -87,14 +87,16 @@ const BASE = import.meta.env.BASE_URL;
     if (totalEl) totalEl.textContent = formatPrice(price);
   }
 
-  cartBtn?.addEventListener("click", () => {
-    const target = document.getElementById("checkout-form-section");
+  function handleCartClick(): void {
+    const target = document.getElementById("order-checkout-section");
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
-      const input = target.querySelector("#customer-name") as HTMLElement | null;
+      const input = target.querySelector("#client-name") as HTMLElement | null;
       setTimeout(() => input?.focus(), 500);
     }
-  });
+  }
+
+  cartBtn?.addEventListener("click", handleCartClick);
 
   const unsubItems = totalItems.subscribe(updateCartDisplay);
   const unsubTotal = total.subscribe(updateCartDisplay);
@@ -105,7 +107,7 @@ const BASE = import.meta.env.BASE_URL;
     disconnectMobile();
     unsubItems();
     unsubTotal();
-    cartBtn?.removeEventListener("click", updateCartDisplay);
+    cartBtn?.removeEventListener("click", handleCartClick);
     document.removeEventListener("astro:before-swap", cleanup);
   }
 

@@ -8,8 +8,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const base = (process.env.BASE_URL || (isProd ? '/dlr-template-catalogo-burguer-express/' : '/')).replace(/\/?$/, '/');
 
 if (!existsSync(distDir)) {
-  console.error("[manifest] dist/ not found — skipping (run `astro build` first)");
-  process.exit(0);
+  throw new Error("[manifest] dist/ not found — run `astro build` first");
 }
 
 const manifest = {
