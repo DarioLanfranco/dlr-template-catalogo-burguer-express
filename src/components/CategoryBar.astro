@@ -11,29 +11,68 @@ const allLabel = "TODAS";
 
 <nav class="category-carousel" aria-label="Categorías del menú">
   {filterable && (
-    <button class="category-btn is-active" aria-pressed="true">
+    <button class="category-btn is-active" aria-pressed="true" data-category-id="">
       <span class="category-label">{allLabel}</span>
     </button>
   )}
-  {
-    CATEGORIAS.map((cat, i) => (
-      <button
-        class={`category-btn${!filterable && i === 0 ? " is-active" : ""}`}
-        aria-pressed={!filterable && i === 0 ? "true" : "false"}
-        data-category-id={cat.id}
-      >
-        <img
-          src={cat.icon.src}
-          alt=""
-          class="category-icon"
-          width="28"
-          height="28"
-          loading="eager"
-        />
-        <span class="category-label">{cat.nombre.toUpperCase()}</span>
-      </button>
-    ))
-  }
+  {CATEGORIAS.map((cat) => (
+    <button
+      class={`category-btn${!filterable ? " is-active" : ""}`}
+      aria-pressed={!filterable ? "true" : "false"}
+      data-category-id={cat.id}
+    >
+      {cat.id === "burgers" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 11h22" />
+          <path d="M4 11l2 11h16l2-11" />
+          <path d="M7 8c0-2 3-4 7-4s7 2 7 4" />
+          <circle cx="10" cy="15" r="1" fill="currentColor" stroke="none" />
+          <circle cx="18" cy="15" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      )}
+      {cat.id === "pizzas" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 23L14 3l9 20H5z" />
+          <circle cx="14" cy="13" r="1.5" fill="currentColor" stroke="none" />
+          <circle cx="10" cy="18" r="1" fill="currentColor" stroke="none" />
+          <circle cx="18" cy="18" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      )}
+      {cat.id === "empanadas" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 14C4 8.5 8.5 4 14 4s10 4.5 10 10" />
+          <path d="M4 14c0 2.5 1 4.5 2.5 6" />
+          <path d="M24 14c0 2.5-1 4.5-2.5 6" />
+          <path d="M6.5 20c1.5 1.5 4 2 7.5 2s6-.5 7.5-2" />
+        </svg>
+      )}
+      {cat.id === "papas" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="6" y="10" width="16" height="14" rx="2" />
+          <path d="M10 10V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3" />
+          <line x1="12" y1="14" x2="12" y2="20" />
+          <line x1="16" y1="14" x2="16" y2="20" />
+          <line x1="14" y1="16" x2="14" y2="22" />
+        </svg>
+      )}
+      {cat.id === "bebidas" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 5l2 18h10l2-18" />
+          <line x1="5" y1="5" x2="23" y2="5" />
+          <path d="M14 5V3" />
+          <path d="M17 23c0 1-1.5 2-3 2s-3-1-3-2" />
+        </svg>
+      )}
+      {cat.id === "promos" && (
+        <svg class="category-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 3L3 14l7 7 11-11z" />
+          <circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none" />
+          <path d="M14 3L3 14" />
+        </svg>
+      )}
+      <span class="category-label">{cat.nombre.toUpperCase()}</span>
+    </button>
+  ))}
 </nav>
 
 <style>
@@ -61,16 +100,18 @@ const allLabel = "TODAS";
     flex-shrink: 0;
     width: 96px;
     height: 96px;
-    border: var(--border-brutal);
+    border: 2px solid #555;
     border-radius: 1rem;
-    background: var(--color-card-base);
+    background: transparent;
+    color: #999;
     cursor: pointer;
     padding: 0.75rem;
     gap: 0.4rem;
     scroll-snap-align: start;
     transition:
-      background-color 0.15s ease,
-      color 0.15s ease,
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
       transform 0.15s var(--ease-spring);
     -webkit-tap-highlight-color: transparent;
   }
@@ -86,14 +127,8 @@ const allLabel = "TODAS";
 
   .category-btn.is-active {
     background: var(--color-primary);
-  }
-
-  .category-btn.is-active .category-label {
     color: #FFFFFF;
-  }
-
-  .category-btn.is-active .category-icon {
-    filter: brightness(0) saturate(100%) invert(1);
+    border-color: var(--color-primary);
   }
 
   .category-icon {
@@ -104,15 +139,11 @@ const allLabel = "TODAS";
     pointer-events: none;
   }
 
-  [data-theme="dark"] .category-icon {
-    filter: invert(1);
-  }
-
   .category-label {
     font-size: 0.625rem;
     font-weight: 800;
     letter-spacing: 0.08em;
-    color: var(--color-text-base);
+    color: inherit;
     text-transform: uppercase;
     text-align: center;
     line-height: 1.2;
@@ -151,28 +182,50 @@ const allLabel = "TODAS";
 </style>
 
 <script>
-  const nav = document.querySelector(".category-carousel");
-  const hasAllButton = nav?.querySelector(".category-btn:not([data-category-id])");
-  if (nav && hasAllButton) {
-    nav.addEventListener("click", (e: Event) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      const btn = target.closest(".category-btn") as HTMLButtonElement | null;
-      if (!btn) return;
+  import { activeCategory } from "../store/category";
 
-      nav.querySelectorAll(".category-btn").forEach((b) => {
-        b.classList.remove("is-active");
-        b.setAttribute("aria-pressed", "false");
-      });
-      btn.classList.add("is-active");
-      btn.setAttribute("aria-pressed", "true");
+  const nav = document.querySelector<HTMLElement>(".category-carousel");
+  if (!nav) throw new Error("CategoryBar: nav element not found");
 
-      const categoryId = btn.getAttribute("data-category-id") || "";
-      const products = document.querySelectorAll("[data-category]");
-      products.forEach((el) => {
-        const match = !categoryId || el.getAttribute("data-category") === categoryId;
-        (el as HTMLElement).style.display = match ? "" : "none";
-      });
-    });
+  function filterProducts(categoryId: string): void {
+    const products = document.querySelectorAll<HTMLElement>("[data-category]");
+    for (const el of products) {
+      const match = !categoryId || el.getAttribute("data-category") === categoryId;
+      el.style.display = match ? "" : "none";
+    }
   }
+
+  function updateButtons(categoryId: string): void {
+    const buttons = nav!.querySelectorAll<HTMLButtonElement>(".category-btn");
+    for (const btn of buttons) {
+      const id = btn.getAttribute("data-category-id") ?? "";
+      const isActive = id === categoryId;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", String(isActive));
+    }
+  }
+
+  function onCategoryChange(categoryId: string): void {
+    updateButtons(categoryId);
+    filterProducts(categoryId);
+  }
+
+  nav.addEventListener("click", (e: Event) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    const btn = target.closest<HTMLButtonElement>(".category-btn");
+    if (!btn) return;
+    const id = btn.getAttribute("data-category-id") ?? "";
+    activeCategory.set(id);
+  });
+
+  const unsub = activeCategory.subscribe(onCategoryChange);
+  onCategoryChange(activeCategory.get());
+
+  function cleanup(): void {
+    unsub();
+    document.removeEventListener("astro:before-swap", cleanup);
+  }
+
+  document.addEventListener("astro:before-swap", cleanup);
 </script>

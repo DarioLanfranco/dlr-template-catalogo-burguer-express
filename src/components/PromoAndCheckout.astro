@@ -1,92 +1,43 @@
 ---
 import { Image } from "astro:assets";
 import { siteConfig } from "../config/site-config";
-import headBurgerImg from "../assets/images/headburguer.webp";
-
-interface ImageMetadata {
-  src: string;
-  width: number;
-  height: number;
-  format: "avif" | "png" | "webp" | "jpeg" | "jpg" | "svg" | "tiff" | "gif";
-  orientation?: number;
-}
-
-interface PromoData {
-  sticker: string;
-  title: string;
-  highlight: string;
-  desc: string;
-  price: number;
-  img: ImageMetadata;
-  imgAlt: string;
-}
+import promoImg from "../assets/images/promo.webp";
 
 interface Props {
   whatsappNumber?: string;
-  promo?: Partial<PromoData>;
 }
 
-const { whatsappNumber = siteConfig.contact.whatsappNumber, promo = {} } = Astro.props;
-
-const data: PromoData = {
-  sticker: "PROMO",
-  title: "COMBO",
-  highlight: "PEPON",
-  desc: "BURGER DOBLE + PAPAS + GASEOSA 350ML",
-  price: 12500,
-  img: headBurgerImg,
-  imgAlt: "Hamburguesa Combo Pepón",
-  ...promo,
-};
+const { whatsappNumber = siteConfig.contact.whatsappNumber } = Astro.props;
 ---
 
-<section id="combo-promo" class="promo-section" data-whatsapp={whatsappNumber} data-site={siteConfig.siteName}>
+<section
+  id="combo-promo"
+  class="promo-section"
+  data-whatsapp={whatsappNumber}
+  data-site={siteConfig.siteName}
+>
   <div class="promo-banner">
     <div class="promo-left">
-      <span class="promo-sticker">{data.sticker}</span>
+      <span class="promo-sticker">PROMO</span>
       <h2 class="promo-title">
-        {data.title}<br />
-        <span class="promo-highlight">{data.highlight}</span>
+        COMBO<br />
+        <span class="promo-highlight">PEPON</span>
       </h2>
-      <p class="promo-desc">{data.desc}</p>
+      <p class="promo-desc">BURGER DOBLE + PAPAS + GASEOSA 350ML</p>
       <div class="promo-price-box">
-        <span class="promo-price">$ {data.price.toLocaleString("es-AR")}</span>
+        <span class="promo-price">$ 12.500</span>
       </div>
     </div>
 
     <div class="promo-right">
       <div class="promo-composition">
+        <span class="promo-badge">PROMO BIEN PEPON</span>
         <Image
-          src={data.img}
-          alt={data.imgAlt}
-          width={500}
-          height={400}
-          format="webp"
-          quality={80}
+          src={promoImg}
+          alt="Combo Pepón: hamburguesa doble, papas fritas y gaseosa"
+          class="promo-img"
           loading="lazy"
-          class="promo-burger"
         />
-
-        <svg class="promo-fries" viewBox="0 0 80 100" fill="none" aria-hidden="true">
-          <rect x="8" y="15" width="14" height="58" rx="5" fill="#FFC300" stroke="var(--color-text-base)" stroke-width="3"/>
-          <rect x="24" y="5" width="14" height="68" rx="5" fill="#FFC300" stroke="var(--color-text-base)" stroke-width="3"/>
-          <rect x="40" y="22" width="14" height="51" rx="5" fill="#FFC300" stroke="var(--color-text-base)" stroke-width="3"/>
-          <rect x="56" y="12" width="14" height="61" rx="5" fill="#FFC300" stroke="var(--color-text-base)" stroke-width="3"/>
-          <ellipse cx="15" cy="18" rx="5" ry="4" fill="#E63946"/>
-          <ellipse cx="31" cy="10" rx="5" ry="4" fill="#E63946"/>
-          <ellipse cx="47" cy="25" rx="5" ry="4" fill="#E63946"/>
-          <ellipse cx="63" cy="16" rx="5" ry="4" fill="#E63946"/>
-        </svg>
-
-        <svg class="promo-soda" viewBox="0 0 50 90" fill="none" aria-hidden="true">
-          <rect x="5" y="12" width="40" height="64" rx="6" fill="#E63946" stroke="var(--color-text-base)" stroke-width="3"/>
-          <rect x="2" y="9" width="46" height="8" rx="4" fill="#D3D3D3" stroke="var(--color-text-base)" stroke-width="2.5"/>
-          <rect x="5" y="24" width="40" height="22" fill="#FFFFFF" stroke="var(--color-text-base)" stroke-width="0"/>
-          <rect x="5" y="24" width="40" height="6" fill="#FFC300"/>
-          <text x="25" y="39" text-anchor="middle" font-size="9" font-weight="900" fill="var(--color-text-base)" font-family="Impact, sans-serif">COLA</text>
-          <ellipse cx="25" cy="7" rx="6" ry="3" fill="#D3D3D3" stroke="var(--color-text-base)" stroke-width="2"/>
-          <rect x="5" y="68" width="40" height="8" rx="4" fill="#D3D3D3" stroke="var(--color-text-base)" stroke-width="2.5"/>
-        </svg>
       </div>
     </div>
   </div>
@@ -108,7 +59,13 @@ const data: PromoData = {
 
   <div id="quick-fallback" class="quick-fallback" role="alert" hidden>
     <p class="fallback-message">No se pudo abrir WhatsApp automáticamente.</p>
-    <a id="quick-fallback-link" class="fallback-link" href="#" target="_blank" rel="noopener">
+    <a
+      id="quick-fallback-link"
+      class="fallback-link"
+      href="#"
+      target="_blank"
+      rel="noopener"
+    >
       Hacé click acá para enviar el pedido →
     </a>
   </div>
@@ -116,16 +73,29 @@ const data: PromoData = {
 
 <script>
   import { cartItems, total, isCartValid, clearCart } from "../store/cart";
-  import { buildQuickOrderMessage, getWhatsAppUrl } from "../services/orderService";
+  import {
+    buildQuickOrderMessage,
+    getWhatsAppUrl,
+  } from "../services/orderService";
   import { formatPrice } from "../lib/checkout";
 
-  const section = document.querySelector(".promo-section") as HTMLElement | null;
+  const section = document.querySelector(
+    ".promo-section",
+  ) as HTMLElement | null;
   const phoneNumber = section?.dataset.whatsapp ?? "";
   const siteName = section?.dataset.site ?? "PEPÓN";
-  const btn = document.getElementById("quick-checkout-btn") as HTMLButtonElement | null;
-  const totalDisplay = document.getElementById("quick-checkout-total") as HTMLElement | null;
-  const fallbackEl = document.getElementById("quick-fallback") as HTMLElement | null;
-  const fallbackLink = document.getElementById("quick-fallback-link") as HTMLAnchorElement | null;
+  const btn = document.getElementById(
+    "quick-checkout-btn",
+  ) as HTMLButtonElement | null;
+  const totalDisplay = document.getElementById(
+    "quick-checkout-total",
+  ) as HTMLElement | null;
+  const fallbackEl = document.getElementById(
+    "quick-fallback",
+  ) as HTMLElement | null;
+  const fallbackLink = document.getElementById(
+    "quick-fallback-link",
+  ) as HTMLAnchorElement | null;
 
   let isSubmitting = false;
 
@@ -198,14 +168,14 @@ const data: PromoData = {
     background: var(--color-secondary);
     border: var(--border-brutal-heavy);
     box-shadow: var(--shadow-brutal-heavy);
-    padding: 2.5rem 2.5rem;
+    padding: 3rem 3rem;
     overflow: hidden;
   }
 
   .promo-left {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .promo-sticker {
@@ -213,11 +183,11 @@ const data: PromoData = {
     align-self: flex-start;
     padding: 0.35rem 0.75rem;
     background: #121212;
-    color: #FFFFFF;
+    color: #ffffff;
     font-family: var(--font-display);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     letter-spacing: 0.05em;
-    border: 3px solid #FFFFFF;
+    border: 3px solid #ffffff;
     transform: rotate(-2deg);
     transform-origin: left center;
     white-space: nowrap;
@@ -225,7 +195,7 @@ const data: PromoData = {
 
   .promo-title {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-size: clamp(3.25rem, 7vw, 6.5rem);
     letter-spacing: -0.04em;
     line-height: 0.85;
     color: #121212;
@@ -238,7 +208,7 @@ const data: PromoData = {
   }
 
   .promo-desc {
-    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
     font-weight: 800;
     letter-spacing: 0.02em;
     color: #121212;
@@ -251,14 +221,14 @@ const data: PromoData = {
     display: inline-flex;
     align-self: flex-start;
     padding: 0.6rem 1.5rem;
-    background: #FFFFFF;
+    background: #ffffff;
     border: var(--border-brutal);
     box-shadow: var(--shadow-brutal);
   }
 
   .promo-price {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-size: clamp(2rem, 3.5vw, 3rem);
     color: var(--color-primary);
     letter-spacing: -0.03em;
     line-height: 1;
@@ -266,6 +236,7 @@ const data: PromoData = {
 
   .promo-right {
     display: flex;
+    max-width: 1000px;
     justify-content: center;
     align-items: center;
   }
@@ -273,42 +244,35 @@ const data: PromoData = {
   .promo-composition {
     position: relative;
     width: 100%;
-    max-width: 480px;
-    aspect-ratio: 4 / 3;
+    max-width: 880px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
   }
 
-  .promo-burger {
-    width: 75%;
+  .promo-img {
+    width: 100%;
     height: auto;
     object-fit: contain;
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(4px 4px 0px var(--color-text-base));
+    display: block;
   }
 
-  .promo-fries {
+  .promo-badge {
     position: absolute;
-    left: 0;
-    bottom: 2%;
-    width: clamp(80px, 18vw, 140px);
-    height: auto;
-    z-index: 3;
-    transform: rotate(-8deg);
-    filter: drop-shadow(3px 3px 0px var(--color-text-base));
-  }
-
-  .promo-soda {
-    position: absolute;
-    right: 2%;
-    bottom: 0;
-    width: clamp(50px, 12vw, 90px);
-    height: auto;
-    z-index: 1;
-    transform: rotate(6deg);
-    filter: drop-shadow(3px 3px 0px var(--color-text-base));
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 10;
+    padding: 0.3rem 0.75rem;
+    background: #121212;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1.3;
+    pointer-events: none;
   }
 
   .checkout-bar {
@@ -322,7 +286,7 @@ const data: PromoData = {
     width: 100%;
     padding: 1rem 1.75rem;
     background: var(--color-primary);
-    color: #FFFFFF;
+    color: #ffffff;
     text-decoration: none;
     cursor: pointer;
     gap: 1rem;
@@ -370,7 +334,7 @@ const data: PromoData = {
     font-family: var(--font-display);
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   @media (max-width: 1399px) {
@@ -379,7 +343,7 @@ const data: PromoData = {
     }
 
     .promo-banner {
-      padding: 2rem;
+      padding: 2.5rem;
       gap: 1.5rem;
     }
   }
@@ -392,7 +356,7 @@ const data: PromoData = {
     .promo-banner {
       grid-template-columns: 1fr;
       gap: 2rem;
-      padding: 1.75rem 1.25rem;
+      padding: 2rem 1.5rem;
     }
 
     .promo-left {
@@ -408,17 +372,8 @@ const data: PromoData = {
     }
 
     .promo-composition {
-      aspect-ratio: 5 / 3;
       max-width: 360px;
       margin: 0 auto;
-    }
-
-    .promo-fries {
-      width: clamp(70px, 22vw, 110px);
-    }
-
-    .promo-soda {
-      width: clamp(40px, 15vw, 70px);
     }
 
     .checkout-btn {
@@ -444,7 +399,9 @@ const data: PromoData = {
 
   @media (prefers-reduced-motion: no-preference) {
     .checkout-btn {
-      transition: opacity 0.15s ease, transform 0.1s var(--ease-spring);
+      transition:
+        opacity 0.15s ease,
+        transform 0.1s var(--ease-spring);
     }
   }
 

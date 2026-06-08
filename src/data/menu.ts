@@ -30,7 +30,6 @@ interface ImageMetadata {
 export interface Categoria {
   id: CategoriaId;
   nombre: string;
-  icon: ImageMetadata;
 }
 
 export interface Producto {
@@ -45,18 +44,7 @@ export interface Producto {
 }
 
 // ───────────────────────────────────────
-//  2. ASSETS — Iconos de categorías (SVG)
-// ───────────────────────────────────────
-
-import iconBurguer from "../assets/brand/icons/burguer.svg";
-import iconPizza from "../assets/brand/icons/pizza.svg";
-import iconEmpanada from "../assets/brand/icons/empanada.svg";
-import iconFritas from "../assets/brand/icons/fritas.svg";
-import iconBebida from "../assets/brand/icons/bebida.svg";
-import iconPromo from "../assets/brand/icons/promo.svg";
-
-// ───────────────────────────────────────
-//  3. ASSETS — Imágenes de productos
+//  2. ASSETS — Imágenes de productos
 // ───────────────────────────────────────
 
 import imgHeadBurguer from "../assets/images/headburguer.webp";
@@ -70,12 +58,12 @@ import imgPizzaClasica from "../assets/images/pizzaclasica.webp";
 // ───────────────────────────────────────
 
 export const CATEGORIAS: Categoria[] = [
-  { id: "burgers", nombre: "Hamburguesas", icon: iconBurguer },
-  { id: "pizzas", nombre: "Pizzas", icon: iconPizza },
-  { id: "empanadas", nombre: "Empanadas", icon: iconEmpanada },
-  { id: "papas", nombre: "Papas", icon: iconFritas },
-  { id: "bebidas", nombre: "Bebidas", icon: iconBebida },
-  { id: "promos", nombre: "Promos", icon: iconPromo },
+  { id: "burgers", nombre: "Hamburguesas" },
+  { id: "pizzas", nombre: "Pizzas" },
+  { id: "empanadas", nombre: "Empanadas" },
+  { id: "papas", nombre: "Papas" },
+  { id: "bebidas", nombre: "Bebidas" },
+  { id: "promos", nombre: "Promos" },
 ];
 
 // ───────────────────────────────────────
