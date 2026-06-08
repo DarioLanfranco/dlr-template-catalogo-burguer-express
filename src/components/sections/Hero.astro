@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import headBurgerImg from "../../assets/images/headburguer.webp";
-import deliveryIcon from "../../assets/brand/icons/delivery.svg";
 
 const BASE = import.meta.env.BASE_URL;
 ---
@@ -23,10 +22,13 @@ const BASE = import.meta.env.BASE_URL;
 
     <div class="hero-actions">
       <a href={BASE + "menu/"} class="btn-order">
-        <img src={deliveryIcon.src} alt="" width="24" height="24" class="btn-delivery-icon" />
+        <svg class="btn-delivery-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
         PEDÍ AHORA
       </a>
-      <a href={BASE + "menu/"} class="btn-outline">VER MENÚ</a>
     </div>
   </div>
 
@@ -36,17 +38,13 @@ const BASE = import.meta.env.BASE_URL;
         src={headBurgerImg}
         alt="Hamburguesa PEPÓN"
         width={800}
-        height={800}
+        fit="contain"
         format="webp"
-        quality={80}
+        quality={90}
         loading="eager"
         fetchpriority="high"
         class="hero-burger"
       />
-
-      <div class="sticker-star">
-        <span class="sticker-star-text">100% PEPON</span>
-      </div>
 
       <div class="sticker-love">
         <span aria-hidden="true">❤️</span>
@@ -57,24 +55,15 @@ const BASE = import.meta.env.BASE_URL;
 </section>
 
 <style>
-  /* ==============================================
-   *  HERO — PEPÓN
-   *  Two-column grid → stacked on mobile
-   *  ============================================*/
-
   .hero {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.2fr;
     gap: 3rem;
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem 2rem 5rem;
+    padding: 4rem 2rem 6rem;
   }
-
-  /* ----------------------------------------------
-   *  Text column
-   *  --------------------------------------------*/
 
   .hero-text {
     display: flex;
@@ -103,7 +92,7 @@ const BASE = import.meta.env.BASE_URL;
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     letter-spacing: -0.03em;
-    line-height: 0.88;
+    line-height: 0.95;
     color: var(--color-text-base);
     text-transform: uppercase;
     margin: 0;
@@ -135,7 +124,7 @@ const BASE = import.meta.env.BASE_URL;
     gap: 0.6rem;
     padding: 0.85rem 1.75rem;
     background: var(--color-primary);
-    color: #FFFFFF;
+    color: #ffffff;
     font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 900;
@@ -144,9 +133,6 @@ const BASE = import.meta.env.BASE_URL;
     text-decoration: none;
     border: var(--border-brutal);
     box-shadow: var(--shadow-brutal);
-    transition:
-      transform 0.1s var(--ease-spring),
-      box-shadow 0.1s var(--ease-spring);
     cursor: pointer;
   }
 
@@ -162,40 +148,7 @@ const BASE = import.meta.env.BASE_URL;
 
   .btn-delivery-icon {
     flex-shrink: 0;
-    filter: brightness(0) invert(1);
   }
-
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.85rem 1.75rem;
-    background: transparent;
-    color: var(--color-text-base);
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 900;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: var(--border-brutal);
-    transition:
-      transform 0.1s var(--ease-spring),
-      background 0.2s var(--ease-spring);
-    cursor: pointer;
-  }
-
-  .btn-outline:active {
-    transform: translate(2px, 2px);
-  }
-
-  .btn-outline:focus-visible {
-    outline: 2px solid var(--color-text-base);
-    outline-offset: 4px;
-  }
-
-  /* ----------------------------------------------
-   *  Visual column — burger + stickers
-   *  --------------------------------------------*/
 
   .hero-visual {
     display: flex;
@@ -206,55 +159,14 @@ const BASE = import.meta.env.BASE_URL;
   .hero-image-frame {
     position: relative;
     width: 100%;
-    max-width: 550px;
+    max-width: 700px;
   }
 
   .hero-burger {
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
   }
-
-  /* ── Sticker estrella "100% PEPON" ── */
-
-  .sticker-star {
-    position: absolute;
-    top: -8%;
-    right: -6%;
-    width: clamp(90px, 16vw, 150px);
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-secondary);
-    clip-path: polygon(
-      50% 0%,
-      61% 35%,
-      98% 35%,
-      68% 57%,
-      79% 91%,
-      50% 70%,
-      21% 91%,
-      32% 57%,
-      2% 35%,
-      39% 35%
-    );
-    transform: rotate(12deg);
-    z-index: 2;
-  }
-
-  .sticker-star-text {
-    font-family: var(--font-display);
-    font-size: clamp(0.55rem, 1.5vw, 0.85rem);
-    font-weight: 900;
-    color: #121212;
-    text-align: center;
-    line-height: 1.1;
-    text-transform: uppercase;
-    padding: 0 8%;
-  }
-
-  /* ── Sticker "HECHA CON AMOR" ── */
 
   .sticker-love {
     position: absolute;
@@ -267,7 +179,7 @@ const BASE = import.meta.env.BASE_URL;
     background: var(--color-text-base);
     color: var(--color-bg);
     font-family: var(--font-display);
-    font-size: clamp(0.5rem, 1.2vw, 0.7rem);
+    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -279,25 +191,17 @@ const BASE = import.meta.env.BASE_URL;
   }
 
   .sticker-love span {
-    font-size: clamp(0.6rem, 1.4vw, 0.85rem);
+    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
     line-height: 1;
     flex-shrink: 0;
   }
 
-  /* ----------------------------------------------
-   *  Tablet
-   *  --------------------------------------------*/
-
-  @media (max-width: 1399px) {
+  @media (min-width: 769px) and (max-width: 1399px) {
     .hero {
       gap: 2rem;
       padding: 2rem 2rem 4rem;
     }
   }
-
-  /* ----------------------------------------------
-   *  Mobile
-   *  --------------------------------------------*/
 
   @media (max-width: 768px) {
     .hero {
@@ -326,13 +230,7 @@ const BASE = import.meta.env.BASE_URL;
     }
 
     .hero-image-frame {
-      max-width: 400px;
-    }
-
-    .sticker-star {
-      top: -6%;
-      right: -4%;
-      width: clamp(70px, 18vw, 100px);
+      max-width: none;
     }
 
     .sticker-love {
@@ -341,34 +239,23 @@ const BASE = import.meta.env.BASE_URL;
     }
   }
 
-  /* ----------------------------------------------
-   *  Small mobile
-   *  --------------------------------------------*/
-
   @media (max-width: 420px) {
     .hero-actions {
       flex-direction: column;
       width: 100%;
     }
 
-    .btn-order,
-    .btn-outline {
+    .btn-order {
       width: 100%;
       justify-content: center;
     }
   }
 
-  /* ----------------------------------------------
-   *  Motion safety
-   *  --------------------------------------------*/
-
   @media (prefers-reduced-motion: no-preference) {
-    .btn-order,
-    .btn-outline {
+    .btn-order {
       transition:
         transform 0.1s var(--ease-spring),
-        box-shadow 0.1s var(--ease-spring),
-        background 0.2s var(--ease-spring);
+        box-shadow 0.1s var(--ease-spring);
     }
   }
 </style>

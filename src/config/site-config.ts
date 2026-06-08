@@ -19,7 +19,8 @@ const rawPeponConfig = {
     address: "Av. Corrientes 1234, Buenos Aires",
     googleMapsLink:
       "https://maps.google.com/?q=Av.+Corrientes+1234+Buenos+Aires",
-    businessHours: "Lunes a Viernes: 11:00 - 23:00 | Sábados: 11:00 - 02:00 | Domingos: 18:00 - 23:00",
+    businessHours:
+      "Lunes a Viernes: 11:00 - 23:00 | Sábados: 11:00 - 02:00 | Domingos: 18:00 - 23:00",
     whatsappNumber: "+5493584201263",
   },
   social: {
@@ -51,14 +52,16 @@ const rawPeponConfig = {
     history: {
       title: "Nuestra Historia",
       subtitle: "Pasión por el sabor desde 2024",
-      text1: "PEPÓN nació del amor por la comida bien hecha y el deseo de crear una experiencia gastronómica única, donde cada bocado sea una explosión de sabor. Arrancamos como un pequeño delivery de barrio con una idea clara: comida brutal sin vueltas.",
-      text2: "Hoy seguimos creciendo con la misma receta: ingredientes frescos de primera calidad, recetas propias que rompen el molde y un equipo que pone el alma en cada pedido. Nuestra filosofía es simple: si no es PEPÓN, no es lo mismo.",
-      image: "burguertriple.webp",
+      text1:
+        "PEPÓN nació del amor por la comida bien hecha y el deseo de crear una experiencia gastronómica única, donde cada bocado sea una explosión de sabor. Arrancamos como un pequeño delivery de barrio con una idea clara: comida brutal sin vueltas.",
+      text2:
+        "Hoy seguimos creciendo con la misma receta: ingredientes frescos de primera calidad, recetas propias que rompen el molde y un equipo que pone el alma en cada pedido. Nuestra filosofía es simple: si no es PEPÓN, no es lo mismo.",
+      image: "peponlugar.webp",
     },
     mission: {
       title: "Nuestra Misión",
       text: "Transformar la comida express en una experiencia gastronómica de alto nivel, ofreciendo platos elaborados con ingredientes frescos, recetas originales y un servicio rápido que no sacrifica calidad. Cada pedido es una oportunidad para romper la rutina.",
-      image: "pizzaclasica.webp",
+      image: "peponlugar.webp",
     },
   },
 } satisfies ClientConfigInput;
